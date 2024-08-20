@@ -28,6 +28,18 @@ export default function RootLayout() {
           name="history"
           options={{ title: "History" }}
         />
+        <Stack.Screen
+          name="login"
+          options={{ headerShown: false, title: "Login" }}
+        />
+        <Stack.Screen
+          name="register"
+          options={{ headerShown: false, title: "Register" }}
+        />
+        <Stack.Screen
+          name="welcome"
+          options={{ headerShown: false, title: "welcome" }}
+        />
       </Stack>
     </QueryClientProvider>
   );

@@ -45,6 +45,12 @@ export default function Home() {
                         label="History"
                         path="/history"
                     />
+                    <ActionButton
+                        color="#ff379e"
+                        icon="login"
+                        label="Login"
+                        path="/welcome"
+                    />
                 </View>
                 <View style={styles.moreActionBar}></View>
                 <View style={styles.transactions}>
