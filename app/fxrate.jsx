@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { MaterialIcons } from "@expo/vector-icons";
 const api = "https://api.frankfurter.app/latest?from=USD";
+
 export default function FxRate() {
     const amountInput = useRef();
     const [amount, setAmount] = useState(1);

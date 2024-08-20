@@ -3,7 +3,7 @@ import { Image, View, SafeAreaView, StyleSheet, Text } from 'react-native'
 import CustomButton from './components/CustomButton'
 import { router } from "expo-router";
 
-const welcome = () => {
+const Welcome = () => {
     return (
         <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
             <View style={{ paddingHorizontal: 25 }}>
@@ -21,7 +21,7 @@ const welcome = () => {
     )
 }
 
-export default welcome
+export default Welcome
 
 const styles = StyleSheet.create({
     welcome: {

@@ -28,7 +28,7 @@ const Login = () => {
                 </Text>
 
                 <InputField
-                    label={'Email ID'}
+                    label={'Email'}
                     icon={
                         <MaterialIcons
                             name="email"
