@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { Card, TextInput, Button, RadioButton, Text, IconButton } from 'react-native-paper';
+import { router, useLocalSearchParams } from 'expo-router';
 
 const Verification = () => {
     const [gender, setGender] = useState('');
@@ -10,10 +11,23 @@ const Verification = () => {
     const [country, setCountry] = useState('');
     const [city, setCity] = useState('');
     const [postalCode, setPostalCode] = useState('');
+    const [frontPhoto, setFrontPhoto] = useState('')
+    const [backPhoto, setBackPhoto] = useState('')
+    const { photoUri } = useLocalSearchParams();
+
+
+    useEffect(() => {
+        console.log('searchParams', photoUri);
+        // const photoUri = searchParams.get("photoUri");
+        // if (photoUri) {
+        //     // You can handle which photo it is by setting it to front or back
+        //     setFrontPhoto(photoUri);
+        // }
+    }, [photoUri]);
 
     return (
         <ScrollView style={styles.container}>
-            {/* First Card */}
+
             <Card style={styles.card}>
                 <Card.Title title="Personal Information" />
                 <Card.Content>
@@ -50,10 +64,23 @@ const Verification = () => {
                             <Text>Female</Text>
                         </View>
                     </RadioButton.Group>
+                    <Text style={styles.genderLabel}>Upload ID Photo</Text>
+                    <View style={styles.uploadIdContainer}>
+                        <View style={styles.uploadId}>
+                            <Image source={{ uri: frontPhoto }} />
+                            <TouchableOpacity onPress={() => router.navigate('cameracomponent')}>
+                                <Text style={styles.uploadIdText}>+ Upload Front</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.uploadId}>
+                            <TouchableOpacity onPress={() => router.navigate('cameracomponent')}>
+                                <Text style={styles.uploadIdText}>+ Upload Back</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                 </Card.Content>
             </Card>
 
-            {/* Second Card */}
             <Card style={styles.card}>
                 <Card.Title title="My Address" />
                 <Card.Content>
@@ -78,7 +105,7 @@ const Verification = () => {
                 </Card.Content>
             </Card>
 
-            {/* Submit Button */}
+
             <Button mode="contained" style={styles.button} onPress={() => console.log('Form Submitted')}>
                 Submit
             </Button>
@@ -87,6 +114,14 @@ const Verification = () => {
 };
 
 const styles = StyleSheet.create({
+    cameraContainer: {
+        flex: 1,
+        flexDirection: 'row'
+    },
+    fixedRatio: {
+        flex: 1,
+        aspectRatio: 1
+    },
     container: {
         flex: 1,
         padding: 16,
@@ -111,6 +146,20 @@ const styles = StyleSheet.create({
     button: {
         marginVertical: 16,
     },
+    uploadIdContainer: {
+        flexDirection: 'row'
+    },
+    uploadId: {
+        width: '48%',
+        marginHorizontal: 2,
+        backgroundColor: '#ccc',
+        paddingVertical: 100,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    uploadIdText: {
+        color: 'gray'
+    }
 });
 
 export default Verification;

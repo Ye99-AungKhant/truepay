@@ -3,6 +3,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ProfileIndex from './index';
 import Verification from './verification';
+import CameraComponent from './cameracomponent';
 
 const ProfileLayout = () => {
     const Stack = createNativeStackNavigator();
@@ -17,6 +18,11 @@ const ProfileLayout = () => {
                 name="verification"
                 component={Verification}
                 options={{ headerTitle: 'Verification' }}
+            />
+            <Stack.Screen
+                name="cameracomponent"
+                component={CameraComponent}
+                options={{ headerTitle: 'CameraComponent' }}
             />
         </Stack.Navigator>
     )
