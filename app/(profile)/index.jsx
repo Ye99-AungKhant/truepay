@@ -2,12 +2,17 @@ import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { MaterialIcons } from "@expo/vector-icons";
+import { router } from 'expo-router';
 
 export default function ProfileIndex() {
     return (
         <View>
             <View style={styles.container}>
-                <View style={[styles.item, styles.divider]}><Text>Status</Text><View style={styles.chip}><Text style={styles.chipText}>Verified</Text></View></View>
+                <View style={styles.divider}>
+                    <TouchableOpacity style={styles.item} onPress={() => router.navigate('verification')}>
+                        <Text>Status</Text><View style={styles.chip}><Text style={styles.chipText}>Verified</Text></View>
+                    </TouchableOpacity>
+                </View>
                 <View style={[styles.divider]}>
                     <TouchableOpacity style={styles.item}>
                         <Text>Profile Photo</Text>

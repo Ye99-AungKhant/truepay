@@ -29,8 +29,8 @@ function AppStack() {
         name="(home)"
         component={HomeLayout}
         options={{
-          headerTitle: 'Home',
-          headerShown: false,
+          // headerTitle: 'Home',
+          // headerShown: false,
           title: 'Home',
         }}
       />

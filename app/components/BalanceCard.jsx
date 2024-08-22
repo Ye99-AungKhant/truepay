@@ -18,6 +18,7 @@ export default function BalanceCard() {
 const styles = StyleSheet.create({
     banner: {
         padding: 30,
+        paddingTop: 0,
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25,
         backgroundColor: "#6d25e5",
