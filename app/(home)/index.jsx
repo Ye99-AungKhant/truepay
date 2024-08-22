@@ -4,20 +4,32 @@ import {
     StyleSheet,
     SafeAreaView,
     Platform,
+    Button,
+    TouchableOpacity,
+    StatusBar,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import Transactions from "./components/Transactions";
-import ActionButton from "./components/ActionButton";
-import BalanceCard from "./components/BalanceCard";
+import Transactions from "../components/Transactions";
+import ActionButton from "../components/ActionButton";
+import BalanceCard from "../components/BalanceCard";
+import { MaterialIcons } from "@expo/vector-icons";
 
-export default function Home() {
+export default function Home({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
+            <StatusBar barStyle="light-content" />
             <LinearGradient
                 colors={["rgba(0,0,0,0.8)", "transparent"]}
                 style={styles.background}
             />
             <View>
+                <TouchableOpacity onPress={() => navigation.toggleDrawer()} style={styles.menu}>
+                    <MaterialIcons
+                        name="menu"
+                        size={25}
+                        color='white'
+                    />
+                </TouchableOpacity>
                 <BalanceCard />
                 <View style={styles.actions}>
                     <ActionButton
@@ -57,6 +69,9 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
+    menu: {
+        marginHorizontal: 20
+    },
     background: {
         position: "absolute",
         left: 0,

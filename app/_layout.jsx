@@ -5,43 +5,43 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Login from './login';
 import Register from './register';
 import Welcome from './welcome';
-import Home from './index';
-import Transfer from './transfer';
-import Scan from './scan';
-import FxRate from './fxrate';
-import History from './history';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import HomeLayout from './(home)/_layout';
+import ProfileLayout from './(profile)/_layout';
 
 const Stack = createNativeStackNavigator();
 
 function AppStack() {
+  const Drawer = createDrawerNavigator();
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="index"
-        component={Home}
-        options={{ headerShown: false, title: "Home" }}
+    <Drawer.Navigator
+      screenOptions={{
+        headerTitle: '',
+        headerTintColor: 'white',
+        headerStyle: {
+          backgroundColor: '#6d25e5',
+          elevation: 0,
+          shadowOpacity: 0,
+        }
+      }}
+    >
+      <Drawer.Screen
+        name="(home)"
+        component={HomeLayout}
+        options={{
+          headerTitle: 'Home',
+          headerShown: false,
+          title: 'Home',
+        }}
       />
-      <Stack.Screen
-        name="transfer"
-        component={Transfer}
-        options={{ title: "Transfer" }}
+      <Drawer.Screen
+        name="(profile)"
+        component={ProfileLayout}
+        options={{
+          title: 'Profile',
+        }}
       />
-      <Stack.Screen
-        name="scan"
-        component={Scan}
-        options={{ title: "Scan" }}
-      />
-      <Stack.Screen
-        name="fxrate"
-        component={FxRate}
-        options={{ title: "Exchange Rate" }}
-      />
-      <Stack.Screen
-        name="history"
-        component={History}
-        options={{ title: "History" }}
-      />
-    </Stack.Navigator>
+    </Drawer.Navigator>
   );
 }
 
