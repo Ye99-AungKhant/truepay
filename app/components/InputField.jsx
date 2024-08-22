@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput } from 'react-native';
 
-export default function InputField({
+const InputField = forwardRef(({
     label,
     icon,
-    inputType,
-    keyboardType,
-    fieldButtonLabel,
+    inputType = 'text',
+    keyboardType = 'default',
+    secureTextEntry = false,
     fieldButtonFunction,
-}) {
+    fieldButtonIcon,
+    ...rest
+}, ref) => {
+    const [text, setText] = useState(null);
+    useImperativeHandle(ref, () => ({
+        getValue: () => text,
+    }));
+
     return (
         <View
             style={{
@@ -16,7 +23,6 @@ export default function InputField({
                 borderBottomColor: '#ccc',
                 borderBottomWidth: 1,
                 paddingBottom: 8,
-                marginBottom: 25,
             }}>
             {icon}
             {inputType == 'password' ? (
@@ -24,18 +30,24 @@ export default function InputField({
                     placeholder={label}
                     keyboardType={keyboardType}
                     style={{ flex: 1, paddingVertical: 0 }}
-                    secureTextEntry={true}
+                    secureTextEntry={secureTextEntry}
+                    onChangeText={setText}
+                    {...rest}
                 />
             ) : (
                 <TextInput
                     placeholder={label}
                     keyboardType={keyboardType}
                     style={{ flex: 1, paddingVertical: 0 }}
+                    onChangeText={setText}
+                    {...rest}
                 />
             )}
             <TouchableOpacity onPress={fieldButtonFunction}>
-                <Text style={{ color: '#6d25e5', fontWeight: '700' }}>{fieldButtonLabel}</Text>
+                {fieldButtonIcon}
             </TouchableOpacity>
         </View>
     );
-}
+})
+
+export default InputField
