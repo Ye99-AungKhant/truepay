@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { Card, TextInput, Button, RadioButton, Text, IconButton } from 'react-native-paper';
 import { router, useLocalSearchParams } from 'expo-router';
+import { MainContext } from '../provider/AppProvider';
 
 const Verification = () => {
     const [gender, setGender] = useState('');
@@ -11,19 +12,15 @@ const Verification = () => {
     const [country, setCountry] = useState('');
     const [city, setCity] = useState('');
     const [postalCode, setPostalCode] = useState('');
-    const [frontPhoto, setFrontPhoto] = useState('')
-    const [backPhoto, setBackPhoto] = useState('')
-    const { photoUri } = useLocalSearchParams();
-
+    const searchParams = useLocalSearchParams();
+    const { frontIDImg, setFrontIDImg, backIDImg, setBackIDImg } = useContext(MainContext);
 
     useEffect(() => {
-        console.log('searchParams', photoUri);
-        // const photoUri = searchParams.get("photoUri");
-        // if (photoUri) {
-        //     // You can handle which photo it is by setting it to front or back
-        //     setFrontPhoto(photoUri);
-        // }
-    }, [photoUri]);
+        if (frontIDImg) {
+            console.log('front photo', frontIDImg);
+
+        }
+    }, [frontIDImg]);
 
     return (
         <ScrollView style={styles.container}>
@@ -65,17 +62,21 @@ const Verification = () => {
                         </View>
                     </RadioButton.Group>
                     <Text style={styles.genderLabel}>Upload ID Photo</Text>
+
                     <View style={styles.uploadIdContainer}>
-                        <View style={styles.uploadId}>
-                            <Image source={{ uri: frontPhoto }} />
-                            <TouchableOpacity onPress={() => router.navigate('cameracomponent')}>
-                                <Text style={styles.uploadIdText}>+ Upload Front</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.uploadId}>
-                            <TouchableOpacity onPress={() => router.navigate('cameracomponent')}>
-                                <Text style={styles.uploadIdText}>+ Upload Back</Text>
-                            </TouchableOpacity>
+                        <View>
+                            {frontIDImg ? <Image source={{ uri: frontIDImg }}
+                                style={styles.uploadImg} /> :
+                                <TouchableOpacity onPress={() => router.navigate('cameracomponent')} style={styles.uploadId}>
+                                    <Text style={styles.uploadIdText}>+ Upload Front</Text>
+                                </TouchableOpacity>
+                            }
+                            {backIDImg ? <Image source={{ uri: backIDImg }}
+                                style={styles.uploadImg} /> :
+                                <TouchableOpacity onPress={() => router.navigate('cameracomponent')} style={styles.uploadId}>
+                                    <Text style={styles.uploadIdText}>+ Upload Back</Text>
+                                </TouchableOpacity>
+                            }
                         </View>
                     </View>
                 </Card.Content>
@@ -147,18 +148,27 @@ const styles = StyleSheet.create({
         marginVertical: 16,
     },
     uploadIdContainer: {
-        flexDirection: 'row'
+        // flexDirection: 'row',
     },
     uploadId: {
-        width: '48%',
+        width: '100%',
         marginHorizontal: 2,
         backgroundColor: '#ccc',
         paddingVertical: 100,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: 3
     },
     uploadIdText: {
         color: 'gray'
+    },
+    uploadImg: {
+        width: '100%',
+        height: 250,
+        objectFit: 'contain',
+        marginHorizontal: 2,
+        backgroundColor: '#ccc',
+        marginBottom: 3
     }
 });
 

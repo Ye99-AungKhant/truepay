@@ -8,6 +8,7 @@ import Welcome from './welcome';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import HomeLayout from './(home)/_layout';
 import ProfileLayout from './(profile)/_layout';
+import { AppProvider } from './provider/AppProvider'
 
 const Stack = createNativeStackNavigator();
 
@@ -87,7 +88,9 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {isAuthenticated ? <AppStack /> : <AuthStack />}
+      <AppProvider>
+        {isAuthenticated ? <AppStack /> : <AuthStack />}
+      </AppProvider>
     </QueryClientProvider>
   );
 }

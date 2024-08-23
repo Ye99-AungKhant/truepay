@@ -1,15 +1,17 @@
 
 import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { router } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
+import { MainContext } from "../provider/AppProvider";
 
 export default function CameraComponent() {
     let cameraRef = useRef();
     const [facing, setFacing] = useState('back');
     const [permission, requestPermission] = useCameraPermissions();
     const [photo, setPhoto] = useState();
+    const { frontIDImg, setFrontIDImg, backIDImg, setBackIDImg } = useContext(MainContext);
 
     let takePic = async () => {
         let options = {
@@ -19,13 +21,13 @@ export default function CameraComponent() {
         };
 
         let newPhoto = await cameraRef.current?.takePictureAsync(options);
-        console.log(newPhoto.uri);
 
-        setPhoto(newPhoto);
-        router.push({
-            pathname: 'verification',
-            params: { photoUri: photo.uri },
-        });
+        if (frontIDImg) {
+            setBackIDImg(newPhoto.uri)
+        } else {
+            setFrontIDImg(newPhoto.uri)
+        }
+        router.back()
     };
 
     if (!permission) {
