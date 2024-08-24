@@ -26,6 +26,7 @@ function AppStack() {
         }
       }}
     >
+
       <Drawer.Screen
         name="(home)"
         component={HomeLayout}
@@ -71,20 +72,20 @@ function AuthStack() {
 export const queryClient = new QueryClient();
 
 export default function RootLayout() {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // useEffect(() => {
-  //   const checkAuthToken = async () => {
-  //     try {
-  //       const token = await AsyncStorage.getItem('authToken');
-  //       setIsAuthenticated(!!token);
-  //     } catch (error) {
-  //       console.error('Error fetching auth token', error);
-  //     }
-  //   };
+  useEffect(() => {
+    const checkAuthToken = async () => {
+      try {
+        const token = await AsyncStorage.getItem('authToken');
+        setIsAuthenticated(!!token);
+      } catch (error) {
+        console.error('Error fetching auth token', error);
+      }
+    };
 
-  //   checkAuthToken();
-  // }, []);
+    checkAuthToken();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

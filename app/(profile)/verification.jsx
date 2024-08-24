@@ -8,6 +8,8 @@ import { Picker } from '@react-native-picker/picker';
 import CountryList from './../../lib/CountryList';
 import { useMutation } from "react-query";
 import { verifyUserData } from '@/lib/Fetcher';
+import { jwtDecode } from "jwt-decode";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Verification = () => {
     const [idType, setIdType] = useState('');
@@ -21,7 +23,23 @@ const Verification = () => {
     const [date, setDate] = useState(null)
     const [showDatePicker, setShowDatePicker] = useState(false)
     const [submitBtnDisable, setSubmitBtnDisable] = useState(true)
-    const authUserId = 1
+    let authUserId
+
+    AsyncStorage.getItem('authToken')
+        .then(token => {
+            if (token) {
+                const decoded = jwtDecode(token);
+                authUserId = decoded.id
+                console.log(decoded);
+            } else {
+                console.log('No token found');
+            }
+        })
+        .catch(error => {
+            console.error('Error decoding token:', error);
+        });
+
+
 
     const onChange = ({ type }, selectedDate) => {
         if (type == "set") {

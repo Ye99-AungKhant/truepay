@@ -35,7 +35,7 @@ const Register = () => {
         }
         if (!password) {
             errors.password = 'Password is required'
-        } else if (phone.password < 6) {
+        } else if (password.length < 6) {
             errors.password = 'Password must be at least 6 characters.';
         }
         if (!confirmPassword) {
@@ -65,8 +65,8 @@ const Register = () => {
         onError: async (e) => {
             console.log(e);
         },
-        onSuccess: async user => {
-            router.push('/login')
+        onSuccess: async (data) => {
+            router.push('/')
         },
     });
 
