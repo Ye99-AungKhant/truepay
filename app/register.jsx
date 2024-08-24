@@ -13,6 +13,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomButton from './components/CustomButton';
 import InputField from './components/InputField';
 import { router } from "expo-router";
+import { registerUser } from '@/lib/Fetcher';
 
 const Register = () => {
     const nameRef = useRef(null);
