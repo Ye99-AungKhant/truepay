@@ -14,12 +14,14 @@ import InputField from './components/InputField';
 import { router } from "expo-router";
 import { useMutation } from 'react-query';
 import { logInUser } from '@/lib/Fetcher';
+import { useNavigation } from '@react-navigation/native';
 
 const Login = () => {
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
     const [errors, setErrors] = useState({})
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const navigation = useNavigation();
 
     const formValid = (email, password,) => {
         if (!email) errors.email = 'Email is required'
@@ -49,7 +51,7 @@ const Login = () => {
             console.log(e);
         },
         onSuccess: async (data) => {
-            router.push('/')
+            router.replace('/')
         },
     });
 

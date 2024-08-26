@@ -15,14 +15,14 @@ const Verification = () => {
     const [idType, setIdType] = useState('');
     const [idNo, setIdNo] = useState('');
     const [dob, setDob] = useState('');
-    const [gender, setGender] = useState('');
+    const [gender, setGender] = useState('Male');
     const [country, setCountry] = useState('Myanmar');
     const [city, setCity] = useState('');
     const [postalCode, setPostalCode] = useState('');
     const { frontIDImg, setFrontIDImg, backIDImg, setBackIDImg } = useContext(MainContext);
     const [date, setDate] = useState(null)
     const [showDatePicker, setShowDatePicker] = useState(false)
-    const [submitBtnDisable, setSubmitBtnDisable] = useState(true)
+    const [submitBtnDisable, setSubmitBtnDisable] = useState(false)
     let authUserId
 
     AsyncStorage.getItem('authToken')
@@ -53,11 +53,11 @@ const Verification = () => {
     }
 
     useEffect(() => {
-        const isValid = idType && idNo && gender && dob && frontIDImg && backIDImg && country && city && postalCode
+        const isValid = idType && idNo && gender && country && city && postalCode
         if (isValid) {
             setSubmitBtnDisable(false)
         }
-    }, [idType, idNo, gender, dob, frontIDImg, backIDImg, country, city, postalCode])
+    }, [idType, idNo, gender, country, city, postalCode])
 
     const { mutate, isLoading } = useMutation(async (data) => {
         await verifyUserData(data);
