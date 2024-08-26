@@ -16,7 +16,7 @@ export default function ProfileIndex() {
         phone: null,
         email: null,
         status: null,
-        userverify: null,
+        profile_url: null,
     });
     const [verifiedData, setVerifiedData] = useState({
         id_type: null,
@@ -69,7 +69,12 @@ export default function ProfileIndex() {
                     </TouchableOpacity>
                 </View>
                 <View style={[styles.divider]}>
-                    <TouchableOpacity style={styles.item}>
+                    <TouchableOpacity style={styles.item} onPress={() =>
+                        router.push({
+                            pathname: 'profileupdate',
+                            params: { userData: JSON.stringify(userData), gender: verifiedData.gender },
+                        })
+                    }>
                         <Text>Profile Photo</Text>
                         <MaterialIcons
                             name="arrow-forward-ios"
@@ -92,7 +97,6 @@ export default function ProfileIndex() {
                 <View style={[styles.item, styles.divider]}><Text>Country</Text><Text>{verifiedData.country}</Text></View>
                 <View style={[styles.item, styles.divider]}><Text>City</Text><Text>{verifiedData.city}</Text></View>
                 <View style={[styles.item, styles.divider]}><Text>Postal Code</Text><Text>{verifiedData.postal_code}</Text></View>
-                <View style={styles.item}><Text>Gender</Text><Text>{verifiedData.gender}</Text></View>
             </View>
             <View style={styles.container}>
                 <TouchableOpacity style={styles.item}><Text>Delete Account</Text></TouchableOpacity>

@@ -10,6 +10,8 @@ import { useMutation } from "react-query";
 import { verifyUserData } from '@/lib/Fetcher';
 import { jwtDecode } from "jwt-decode";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
+import { imageDb } from './../../lib/FirebaseConfig';
 
 const Verification = () => {
     const [idType, setIdType] = useState('');
@@ -70,8 +72,15 @@ const Verification = () => {
         },
     });
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log('submitl');
+        let idImg = [frontIDImg, backIDImg]
+        const photo = result.assets[0].uri
+        const fileName = result.assets[0].fileName
+        const imgRef = ref(imageDb, `truepay/tp_${fileName}`)
+        const fileUrl = await fetch(photo);
+        const file = await fileUrl.blob();
+        const uploaded = await uploadBytes(imgRef, file)
         mutate({ authUserId, idType, idNo, gender, dob, frontIDImg, backIDImg, country, city, postalCode })
     }
 
