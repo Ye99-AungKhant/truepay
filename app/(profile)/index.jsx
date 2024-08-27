@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from 'expo-router';
@@ -7,58 +7,10 @@ import { jwtDecode } from "jwt-decode";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation } from 'react-query';
 import { getUserProfileData } from '@/lib/Fetcher';
+import { MainContext } from '../provider/AppProvider';
 
 export default function ProfileIndex() {
-
-    const [userData, setUserData] = useState({
-        id: null,
-        name: null,
-        phone: null,
-        email: null,
-        status: null,
-        profile_url: null,
-    });
-    const [verifiedData, setVerifiedData] = useState({
-        id_type: null,
-        id_no: null,
-        country: null,
-        city: null,
-        postal_code: null,
-        dob: null,
-        gender: null,
-    })
-
-    const { mutate, isLoading } = useMutation(async (data) => {
-        return await getUserProfileData(data);
-    }, {
-        onError: async (e) => {
-            console.log(e);
-        },
-        onSuccess: async (userdata) => {
-            console.log(...userdata.userverify);
-            setUserData(userdata)
-            setVerifiedData(...userdata.userverify)
-        },
-    });
-
-    useEffect(() => {
-        AsyncStorage.getItem('authToken')
-            .then(token => {
-                if (token) {
-                    const decoded = jwtDecode(token);
-                    mutate(decoded.id)
-                    // setUserData(decoded)
-                    console.log(decoded);
-                } else {
-                    console.log('No token found');
-                }
-            })
-            .catch(error => {
-                console.error('Error decoding token:', error);
-            });
-
-    }, [])
-
+    const { userData, setUserData, verifiedData, setVerifiedData } = useContext(MainContext)
 
     return (
         <View>
@@ -70,10 +22,7 @@ export default function ProfileIndex() {
                 </View>
                 <View style={[styles.divider]}>
                     <TouchableOpacity style={styles.item} onPress={() =>
-                        router.push({
-                            pathname: 'profileupdate',
-                            params: { userData: JSON.stringify(userData), gender: verifiedData.gender },
-                        })
+                        router.navigate('profileupdate')
                     }>
                         <Text>Profile Photo</Text>
                         <MaterialIcons
@@ -83,20 +32,20 @@ export default function ProfileIndex() {
                         />
                     </TouchableOpacity>
                 </View>
-                <View style={[styles.item, styles.divider]}><Text>Full Name</Text><Text>{verifiedData.gender == 'Male' ? 'Mr. ' : 'Mrs. '} {userData.name}</Text></View>
+                <View style={[styles.item, styles.divider]}><Text>Full Name</Text><Text>{verifiedData?.gender == 'Male' ? 'Mr. ' : 'Mrs. '} {userData.name}</Text></View>
                 <View style={[styles.item, styles.divider]}><Text>Phone No.</Text><Text>{userData.phone}</Text></View>
                 <View style={[styles.item, styles.divider]}><Text>Email</Text><Text>{userData.email}</Text></View>
             </View>
             <View style={styles.container}>
-                <View style={[styles.item, styles.divider]}><Text>ID Type</Text><Text>{verifiedData.id_type}</Text></View>
-                <View style={[styles.item, styles.divider]}><Text>ID No.</Text><Text>{verifiedData.id_no}</Text></View>
-                <View style={[styles.item, styles.divider]}><Text>Date of Birth</Text><Text>{verifiedData.dob}</Text></View>
-                <View style={styles.item}><Text>Gender</Text><Text>{verifiedData.gender}</Text></View>
+                <View style={[styles.item, styles.divider]}><Text>ID Type</Text><Text>{verifiedData?.id_type}</Text></View>
+                <View style={[styles.item, styles.divider]}><Text>ID No.</Text><Text>{verifiedData?.id_no}</Text></View>
+                <View style={[styles.item, styles.divider]}><Text>Date of Birth</Text><Text>{verifiedData?.dob}</Text></View>
+                <View style={styles.item}><Text>Gender</Text><Text>{verifiedData?.gender}</Text></View>
             </View>
             <View style={styles.container}>
-                <View style={[styles.item, styles.divider]}><Text>Country</Text><Text>{verifiedData.country}</Text></View>
-                <View style={[styles.item, styles.divider]}><Text>City</Text><Text>{verifiedData.city}</Text></View>
-                <View style={[styles.item, styles.divider]}><Text>Postal Code</Text><Text>{verifiedData.postal_code}</Text></View>
+                <View style={[styles.item, styles.divider]}><Text>Country</Text><Text>{verifiedData?.country}</Text></View>
+                <View style={[styles.item, styles.divider]}><Text>City</Text><Text>{verifiedData?.city}</Text></View>
+                <View style={[styles.item, styles.divider]}><Text>Postal Code</Text><Text>{verifiedData?.postal_code}</Text></View>
             </View>
             <View style={styles.container}>
                 <TouchableOpacity style={styles.item}><Text>Delete Account</Text></TouchableOpacity>

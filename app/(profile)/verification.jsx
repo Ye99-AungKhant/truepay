@@ -6,12 +6,10 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { MainContext } from '../provider/AppProvider';
 import { Picker } from '@react-native-picker/picker';
 import CountryList from './../../lib/CountryList';
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { verifyUserData } from '@/lib/Fetcher';
 import { jwtDecode } from "jwt-decode";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
-import { imageDb } from './../../lib/FirebaseConfig';
 
 const Verification = () => {
     const [idType, setIdType] = useState('');
@@ -21,27 +19,12 @@ const Verification = () => {
     const [country, setCountry] = useState('Myanmar');
     const [city, setCity] = useState('');
     const [postalCode, setPostalCode] = useState('');
-    const { frontIDImg, setFrontIDImg, backIDImg, setBackIDImg } = useContext(MainContext);
+    const { userData, frontIDImg, setFrontIDImg, backIDImg, setBackIDImg } = useContext(MainContext);
     const [date, setDate] = useState(null)
     const [showDatePicker, setShowDatePicker] = useState(false)
     const [submitBtnDisable, setSubmitBtnDisable] = useState(false)
-    let authUserId
-
-    AsyncStorage.getItem('authToken')
-        .then(token => {
-            if (token) {
-                const decoded = jwtDecode(token);
-                authUserId = decoded.id
-                console.log(decoded);
-            } else {
-                console.log('No token found');
-            }
-        })
-        .catch(error => {
-            console.error('Error decoding token:', error);
-        });
-
-
+    const queryClient = useQueryClient();
+    const authUserId = userData.id
 
     const onChange = ({ type }, selectedDate) => {
         if (type == "set") {
@@ -68,22 +51,20 @@ const Verification = () => {
             console.log(e);
         },
         onSuccess: async (data) => {
+            queryClient.invalidateQueries(['userData'])
             router.push('/(profile)')
         },
     });
 
     const handleSubmit = async () => {
-        console.log('submitl');
-        let idImg = [frontIDImg, backIDImg]
-        const photo = result.assets[0].uri
-        const fileName = result.assets[0].fileName
-        const imgRef = ref(imageDb, `truepay/tp_${fileName}`)
-        const fileUrl = await fetch(photo);
-        const file = await fileUrl.blob();
-        const uploaded = await uploadBytes(imgRef, file)
+        console.log('submitl')
         mutate({ authUserId, idType, idNo, gender, dob, frontIDImg, backIDImg, country, city, postalCode })
     }
 
+    useEffect(() => {
+        console.log(frontIDImg)
+        console.log(backIDImg)
+    }, [frontIDImg, backIDImg])
     return (
         <>
             <ScrollView style={styles.container}>

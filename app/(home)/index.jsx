@@ -14,8 +14,55 @@ import Transactions from "../components/Transactions";
 import ActionButton from "../components/ActionButton";
 import BalanceCard from "../components/BalanceCard";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useMutation, useQuery } from "react-query";
+import { jwtDecode } from "jwt-decode";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useContext, useEffect, useState } from "react";
+import { MainContext } from "../provider/AppProvider";
+import { getUserProfileData } from "@/lib/Fetcher";
+
 
 export default function Home() {
+    const [authId, setAuthId] = useState(null)
+    const { userData, setUserData, verifiedData, setVerifiedData } = useContext(MainContext);
+
+    // const { mutate, isLoading } = useMutation(async (data) => {
+    //     return await getUserProfileData(data);
+    // }, {
+    //     onError: async (e) => {
+    //         console.log(e);
+    //     },
+    //     onSuccess: async (userdata) => {
+    //         console.log('userdata from server', userdata);
+    //         setUserData(userdata)
+    //         setVerifiedData(...userdata.userverify)
+    //     },
+    // });
+
+    useEffect(() => {
+        AsyncStorage.getItem('authToken')
+            .then(token => {
+                if (token) {
+                    const decoded = jwtDecode(token);
+                    setAuthId(decoded.id)
+                } else {
+                    console.log('No token found');
+                }
+            })
+            .catch(error => {
+                console.error('Error decoding token:', error);
+            });
+    }, [])
+
+    const { data, error, isLoading } = useQuery(['userData', authId], () => getUserProfileData(authId), {
+        onSuccess: (data) => {
+            console.log(data);
+            setUserData(data)
+            setVerifiedData(...data.userverify)
+        },
+    });
+
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle='light-content' />

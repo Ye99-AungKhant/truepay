@@ -1,10 +1,14 @@
 
 import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 import { useState, useRef, useContext } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Button, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 import { router } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MainContext } from "../provider/AppProvider";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
+import { imageDb } from './../../lib/FirebaseConfig';
+import { v4 as uuid } from 'uuid';
+import { async } from './../../lib/Fetcher';
 
 export default function CameraComponent() {
     let cameraRef = useRef();
@@ -12,6 +16,8 @@ export default function CameraComponent() {
     const [permission, requestPermission] = useCameraPermissions();
     const [photo, setPhoto] = useState();
     const { frontIDImg, setFrontIDImg, backIDImg, setBackIDImg } = useContext(MainContext);
+    const [loading, setLoading] = useState(false)
+
 
     let takePic = async () => {
         let options = {
@@ -19,15 +25,34 @@ export default function CameraComponent() {
             base64: true,
             exif: false
         };
-
+        setLoading(!loading)
         let newPhoto = await cameraRef.current?.takePictureAsync(options);
+        console.log(newPhoto.uri);
+
+        const firebaseUpload = async (img) => {
+            const fileUrl = await fetch(img);
+            const file = await fileUrl.blob();
+            const fileName = file._data.blobId
+            const imgRef = ref(imageDb, `truepay/tp_${fileName}`)
+            const uploaded = await uploadBytes(imgRef, file)
+            const newProfile = await getDownloadURL(uploaded.ref);
+            return newProfile
+        }
 
         if (frontIDImg) {
-            setBackIDImg(newPhoto.uri)
+            let firebaseData = await firebaseUpload(newPhoto.uri)
+            console.log('firebaseData front', firebaseData);
+            setBackIDImg(firebaseData)
+            setLoading(!loading)
+            router.back()
         } else {
-            setFrontIDImg(newPhoto.uri)
+            let firebaseData = await firebaseUpload(newPhoto.uri)
+            console.log('firebaseData back', firebaseData);
+            setFrontIDImg(firebaseData)
+            setLoading(!loading)
+            router.back()
         }
-        router.back()
+
     };
 
     if (!permission) {
@@ -68,6 +93,7 @@ export default function CameraComponent() {
                     </TouchableOpacity>
                 </View>
             </CameraView>
+            {loading && <View style={styles.loadingOverlay}><ActivityIndicator size="large" color="#6d25e5" /></View>}
         </View>
     );
 }
@@ -104,5 +130,15 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 18,
         color: 'white',
+    },
+    loadingOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
