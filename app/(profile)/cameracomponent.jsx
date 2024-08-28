@@ -8,7 +8,6 @@ import { MainContext } from "../provider/AppProvider";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { imageDb } from './../../lib/FirebaseConfig';
 import { v4 as uuid } from 'uuid';
-import { async } from './../../lib/Fetcher';
 
 export default function CameraComponent() {
     let cameraRef = useRef();

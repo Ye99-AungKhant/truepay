@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Image, View, SafeAreaView, StyleSheet, Text } from 'react-native'
 import CustomButton from './components/CustomButton'
 import { router } from "expo-router";
 
 const Welcome = () => {
+
     return (
         <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
             <View style={{ paddingHorizontal: 25 }}>

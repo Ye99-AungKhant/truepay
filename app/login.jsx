@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import {
     SafeAreaView,
     View,
@@ -15,6 +15,7 @@ import { router } from "expo-router";
 import { useMutation } from 'react-query';
 import { logInUser } from '@/lib/Fetcher';
 import { useNavigation } from '@react-navigation/native';
+import { MainContext } from './provider/AppProvider';
 
 const Login = () => {
     const emailRef = useRef(null);
@@ -22,6 +23,7 @@ const Login = () => {
     const [errors, setErrors] = useState({})
     const [passwordVisible, setPasswordVisible] = useState(false);
     const navigation = useNavigation();
+    const { login } = useContext(MainContext)
 
     const formValid = (email, password,) => {
         if (!email) errors.email = 'Email is required'
@@ -51,7 +53,8 @@ const Login = () => {
             console.log(e);
         },
         onSuccess: async (data) => {
-            router.replace('/')
+            login(data)
+            router.push('/(home)')
         },
     });
 

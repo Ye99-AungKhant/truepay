@@ -1,10 +1,13 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { router } from 'expo-router';
 
 const MainContext = createContext(null);
 
 const AppProvider = ({ children }) => {
     const [frontIDImg, setFrontIDImg] = useState(null)
     const [backIDImg, setBackIDImg] = useState(null)
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userData, setUserData] = useState({
         id: null,
         name: null,
@@ -23,8 +26,44 @@ const AppProvider = ({ children }) => {
         gender: null,
     })
 
+    useEffect(() => {
+        const checkAuthToken = async () => {
+            try {
+                const token = await AsyncStorage.getItem('authToken');
+                setIsAuthenticated(!!token);
+                if (!token) {
+                    return router.push('/welcome')
+                }
+            } catch (error) {
+                console.error('Error fetching auth token', error);
+            }
+        };
+
+        checkAuthToken();
+    }, []);
+
+    const login = async (token) => {
+        try {
+            await AsyncStorage.setItem('authToken', token);
+            setIsAuthenticated(true);
+        } catch (error) {
+            console.error('Error storing auth token', error);
+        }
+    };
+
+    const logout = async () => {
+        try {
+            await AsyncStorage.removeItem('authToken');
+            setIsAuthenticated(false);
+            console.log('logout');
+
+        } catch (error) {
+            console.error('Error removing auth token', error);
+        }
+    };
+
     return (
-        <MainContext.Provider value={{ userData, setUserData, verifiedData, setVerifiedData, frontIDImg, setFrontIDImg, backIDImg, setBackIDImg }}>
+        <MainContext.Provider value={{ userData, setUserData, verifiedData, setVerifiedData, frontIDImg, setFrontIDImg, backIDImg, setBackIDImg, isAuthenticated, setIsAuthenticated, login, logout }}>
             {children}
         </MainContext.Provider>
     )

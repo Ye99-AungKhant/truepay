@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Home from './index';
+import Home from './home';
 import Transfer from './transfer';
 import Scan from './scan';
 import FxRate from './fxrate';
@@ -13,7 +13,7 @@ const HomeLayout = ({ navigation }) => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="index"
+                name="home"
                 component={Home}
                 options={{ headerShown: false, title: "Home" }}
             />
