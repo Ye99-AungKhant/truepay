@@ -37,21 +37,26 @@ const TransferAmount = () => {
         <View style={styles.container}>
             <ModalPopUp visible={visible} >
                 <View style={styles.transfercard}>
-                    <View style={{ alignItems: 'flex-end' }}>
+
+                    <View style={styles.divider}>
                         <TouchableOpacity onPress={() => setVisible(!visible)}>
-                            <Ionicons name="close" size={24} />
+                            <Ionicons name="close" size={24} color='#ccc' />
                         </TouchableOpacity>
-                        <View >
-                            <OtpInput
-                                length={6}
-                                onComplete={(otp) => {
-                                    setOtp(otp);
-                                }}
-                            />
-                        </View>
-
+                        <Text style={[styles.modalHeader]}>Enter Password</Text>
                     </View>
-
+                    <View style={[styles.divider, styles.modalBody]}>
+                        <Text>Transfer to Ye Aung</Text>
+                        <Text style={{ fontSize: 40 }}>{amount}</Text>
+                    </View>
+                    <View style={{ marginVertical: 10 }}>
+                        <OtpInput
+                            length={6}
+                            onComplete={(otp) => {
+                                setOtp(otp);
+                            }}
+                        />
+                    </View>
+                    <Text style={{ color: 'red', textAlign: 'center' }}>your password is wrong</Text>
                 </View>
             </ModalPopUp>
             <View style={styles.card}>
@@ -68,6 +73,7 @@ const TransferAmount = () => {
                     ref={amountInput}
                     value={amount}
                     onChangeText={setAmount}
+                    keyboardType="numeric"
                 />
                 <TouchableOpacity
                     style={styles.inputDes}
@@ -98,7 +104,7 @@ export default TransferAmount
 const styles = StyleSheet.create({
     container: {
         gap: 15,
-        padding: 20,
+        padding: 10,
         marginTop: 10,
     },
     card: {
@@ -121,7 +127,7 @@ const styles = StyleSheet.create({
     transfercard: {
         borderRadius: 10,
         backgroundColor: '#fefefe',
-        paddingVertical: 10,
+        padding: 10,
     },
     input: {
         flexGrow: 1,
@@ -150,14 +156,17 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: "white",
     },
-    underlineStyleBase: {
-        width: 30,
-        height: 45,
-        borderWidth: 0,
+    divider: {
+        borderBottomColor: '#ccc',
         borderBottomWidth: 1,
     },
-
-    underlineStyleHighLighted: {
-        borderColor: "#03DAC6",
+    modalHeader: {
+        textAlign: 'center',
+        marginBottom: 10
     },
+    modalBody: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+
 });

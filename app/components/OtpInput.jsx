@@ -69,12 +69,11 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
         justifyContent: "space-between",
-        marginVertical: 20,
     },
     input: {
         borderBottomWidth: 2,
         paddingBottom: 10,
-        width: 40,
+        width: 'auto',
         textAlign: "center",
         fontSize: 20,
     },
