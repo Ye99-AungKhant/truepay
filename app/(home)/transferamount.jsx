@@ -8,9 +8,11 @@ import {
     Modal,
 } from "react-native";
 import { useEffect, useRef, useState } from "react";
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import ModalPopUp from './../components/ModalPopUp';
 import OtpInput from './../components/OtpInput';
+import { useLocalSearchParams } from "expo-router";
+import { useGlobalSearchParams } from "expo-router";
 
 
 const TransferAmount = () => {
@@ -23,6 +25,7 @@ const TransferAmount = () => {
     const [note, setNote] = useState("");
     const [visible, setVisible] = useState(false)
     const [otp, setOtp] = useState('')
+    const transferUser = useGlobalSearchParams()
 
     const handleModal = () => {
         setVisible(!visible)
@@ -30,6 +33,7 @@ const TransferAmount = () => {
 
     useEffect(() => {
         console.log(otp);
+        console.log('transferUser', transferUser);
 
     }, [otp])
 
@@ -60,10 +64,14 @@ const TransferAmount = () => {
                 </View>
             </ModalPopUp>
             <View style={styles.card}>
-                <Image source={{ uri: 'https://plus.unsplash.com/premium_photo-1673448390930-86b73c866905?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }} style={styles.image} />
+                {transferUser.profile_url ?
+                    <Image source={{ uri: transferUser.profile_url }} style={styles.image} />
+                    : <FontAwesome name="user-circle" size={50} color="gray" />
+                }
+
                 <View style={styles.item}>
-                    <Text>Ye Aung</Text>
-                    <Text>(******7458)</Text>
+                    <Text>{transferUser.name}</Text>
+                    <Text> ({transferUser.phone})</Text>
                 </View>
             </View>
             <View style={styles.transfercard}>

@@ -4,37 +4,37 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
+    ActivityIndicator,
 } from "react-native";
 import { useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { searchTransferPhone } from "@/lib/Fetcher";
 import { router } from "expo-router";
 export default function Transfer() {
-    const toInput = useRef();
+    const transferPhoneInput = useRef();
     const amountInput = useRef();
     const noteInput = useRef();
     const [available, setAvailable] = useState("12,543.74");
-    const [to, setTo] = useState("");
+    const [transferPhone, setTransferPhone] = useState("");
     const [amount, setAmount] = useState(0);
     const [note, setNote] = useState("");
+    const [error, setError] = useState('')
 
-    const search = useMutation(async data => searchTransferPhone(data), {
+    const { mutate, isLoading } = useMutation(async data => searchTransferPhone(data), {
         onError: async (e) => {
             console.log(e);
+            setError('This number is not register')
         },
         onSuccess: async (data) => {
-            console.log(data);
-
-            // login(data)
-            // router.push('/(home)')
+            console.log('transfer user', data);
+            router.push({ pathname: `/(home)/transferamount`, params: data })
         },
     });
 
     const handleSearchTransferPhone = () => {
-        router.push('/(home)/transferamount')
-        // if (to != '') {
-        //     search.mutate({ to })
-        // }
+        // router.push('/(home)/transferamount')
+        console.log('transferPhone', transferPhone);
+        mutate(transferPhone)
     }
 
 
@@ -43,34 +43,15 @@ export default function Transfer() {
             <TextInput
                 style={styles.input}
                 placeholder="Please enter phone number"
-                ref={toInput}
-                value={to}
-                onChangeText={setTo}
+                ref={transferPhoneInput}
+                value={transferPhone}
+                onChangeText={setTransferPhone}
+                keyboardType="numeric"
             />
-            {/* <TextInput
-                style={styles.input}
-                placeholder="Amount"
-                ref={amountInput}
-                value={amount}
-                onChangeText={setAmount}
-            />
-            <TouchableOpacity
-                style={styles.inputDes}
-                onPress={() => {
-                    setAmount(available);
-                }}>
-                <Text>Balance: </Text>
-                <Text style={styles.balance}>{available}</Text>
-            </TouchableOpacity>
-            <TextInput
-                style={styles.input}
-                placeholder="Note"
-                ref={noteInput}
-                value={note}
-                onChangeText={setNote}
-            /> */}
-            <TouchableOpacity style={styles.button} onPress={handleSearchTransferPhone}>
-                <Text style={styles.buttonText}>Next</Text>
+            {error && <Text style={styles.errorText}>{error}</Text>}
+
+            <TouchableOpacity style={[styles.button, { backgroundColor: transferPhone.length > 10 ? "#6d25e5" : "gray" }]} onPress={handleSearchTransferPhone} disabled={transferPhone.length > 10 ? false : true}>
+                <Text style={styles.buttonText}>{isLoading ? <ActivityIndicator size="small" color="#6d25e5" /> : 'Next'}</Text>
             </TouchableOpacity>
         </View>
     );
@@ -103,11 +84,13 @@ const styles = StyleSheet.create({
         marginTop: 20,
         alignItems: "center",
         padding: 15,
-        backgroundColor: "#6d25e5",
         borderRadius: 10,
     },
     buttonText: {
         fontSize: 20,
         color: "white",
     },
+    errorText: {
+        color: 'red'
+    }
 });
