@@ -1,11 +1,11 @@
 import { Text, View, StyleSheet } from "react-native";
-export default function BalanceCard() {
+export default function BalanceCard({ balance }) {
     return (
         <View style={styles.banner}>
             <Text style={styles.text.label}>Balance</Text>
             <View style={styles.balance}>
-                <Text style={styles.text.label}>$</Text>
-                <Text style={styles.text.amount}>12,543.74</Text>
+                <Text style={styles.text.label}>ks</Text>
+                <Text style={styles.text.amount}>{balance}</Text>
             </View>
             <View style={styles.balanceGrowth}>
                 <Text style={styles.text.growth}>+520 Today</Text>

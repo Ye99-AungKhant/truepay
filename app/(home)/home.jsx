@@ -33,12 +33,11 @@ export default function Home() {
                 const token = await AsyncStorage.getItem('authToken');
                 const decoded = jwtDecode(token)
                 setAuthId(decoded.id)
-
+                console.log(decoded.id);
             } catch (error) {
                 console.error('Error fetching auth token', error);
             }
         };
-
         checkAuthToken();
     }, []);
 
@@ -61,7 +60,7 @@ export default function Home() {
             />
 
             <View>
-                <BalanceCard />
+                <BalanceCard balance={userData.balance} />
                 <View style={styles.actions}>
                     <ActionButton
                         color="#ff009d"

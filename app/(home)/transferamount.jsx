@@ -7,35 +7,56 @@ import {
     Image,
     Modal,
 } from "react-native";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import ModalPopUp from './../components/ModalPopUp';
 import OtpInput from './../components/OtpInput';
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useGlobalSearchParams } from "expo-router";
+import { MainContext } from "../provider/AppProvider";
+import { useMutation } from "react-query";
+import { transfer } from "@/lib/Fetcher";
+import { queryClient } from "../_layout";
 
 
 const TransferAmount = () => {
     const toInput = useRef();
     const amountInput = useRef();
     const noteInput = useRef();
-    const [available, setAvailable] = useState("12,543.74");
     const [to, setTo] = useState("");
     const [amount, setAmount] = useState(0);
     const [note, setNote] = useState("");
     const [visible, setVisible] = useState(false)
     const [otp, setOtp] = useState('')
     const transferUser = useGlobalSearchParams()
+    const { userData } = useContext(MainContext);
+    const [available, setAvailable] = useState(`${userData.balance}`);
 
     const handleModal = () => {
         setVisible(!visible)
     }
 
+
+
     useEffect(() => {
         console.log(otp);
-        console.log('transferUser', transferUser);
+        if (otp) {
+            mutate({ password: otp, senderId: userData.id, recipientId: transferUser.id, amount, note })
+        }
 
     }, [otp])
+
+    const { mutate, isLoading, isError } = useMutation(async (data) => {
+        await transfer(data);
+    }, {
+        onError: async (e) => {
+            console.log(e);
+        },
+        onSuccess: async (data) => {
+            queryClient.invalidateQueries(['userData'])
+            router.push('/(home)/home')
+        },
+    });
 
     return (
         <View style={styles.container}>
@@ -60,7 +81,8 @@ const TransferAmount = () => {
                             }}
                         />
                     </View>
-                    <Text style={{ color: 'red', textAlign: 'center' }}>your password is wrong</Text>
+                    {isError && <Text style={{ color: 'red', textAlign: 'center' }}>your password is wrong</Text>}
+                    {isLoading && <Text style={{ textAlign: 'center' }}>transfering...</Text>}
                 </View>
             </ModalPopUp>
             <View style={styles.card}>

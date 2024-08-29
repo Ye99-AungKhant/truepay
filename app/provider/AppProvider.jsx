@@ -15,6 +15,7 @@ const AppProvider = ({ children }) => {
         email: null,
         status: null,
         profile_url: null,
+        balance: 0,
     });
     const [verifiedData, setVerifiedData] = useState({
         id_type: null,
