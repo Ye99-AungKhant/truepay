@@ -54,8 +54,9 @@ const AppProvider = ({ children }) => {
     const logout = async () => {
         try {
             await AsyncStorage.removeItem('authToken');
+            const token = await AsyncStorage.get('authToken')
             setIsAuthenticated(false);
-            console.log('logout');
+            console.log('logout', token);
 
         } catch (error) {
             console.error('Error removing auth token', error);

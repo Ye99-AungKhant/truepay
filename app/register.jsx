@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { useMutation } from "react-query";
 import {
     SafeAreaView,
@@ -14,6 +14,7 @@ import CustomButton from './components/CustomButton';
 import InputField from './components/InputField';
 import { router } from "expo-router";
 import { registerUser } from '@/lib/Fetcher';
+import { MainContext } from './provider/AppProvider';
 
 const Register = () => {
     const nameRef = useRef(null);
@@ -23,6 +24,7 @@ const Register = () => {
     const confirmPasswordRef = useRef(null);
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [errors, setErrors] = useState({})
+    const { login } = useContext(MainContext)
 
     const formValid = (name, phone, email, password, confirmPassword) => {
         let errors = {}
@@ -66,7 +68,8 @@ const Register = () => {
             console.log(e);
         },
         onSuccess: async (data) => {
-            router.push('/')
+            login(data)
+            router.push('/(home)')
         },
     });
 

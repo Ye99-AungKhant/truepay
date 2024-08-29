@@ -6,6 +6,9 @@ import {
     TouchableOpacity,
 } from "react-native";
 import { useRef, useState } from "react";
+import { useMutation } from "react-query";
+import { searchTransferPhone } from "@/lib/Fetcher";
+import { router } from "expo-router";
 export default function Transfer() {
     const toInput = useRef();
     const amountInput = useRef();
@@ -15,16 +18,36 @@ export default function Transfer() {
     const [amount, setAmount] = useState(0);
     const [note, setNote] = useState("");
 
+    const search = useMutation(async data => searchTransferPhone(data), {
+        onError: async (e) => {
+            console.log(e);
+        },
+        onSuccess: async (data) => {
+            console.log(data);
+
+            // login(data)
+            // router.push('/(home)')
+        },
+    });
+
+    const handleSearchTransferPhone = () => {
+        router.push('/(home)/transferamount')
+        // if (to != '') {
+        //     search.mutate({ to })
+        // }
+    }
+
+
     return (
         <View style={styles.container}>
             <TextInput
                 style={styles.input}
-                placeholder="To"
+                placeholder="Please enter phone number"
                 ref={toInput}
                 value={to}
                 onChangeText={setTo}
             />
-            <TextInput
+            {/* <TextInput
                 style={styles.input}
                 placeholder="Amount"
                 ref={amountInput}
@@ -45,9 +68,9 @@ export default function Transfer() {
                 ref={noteInput}
                 value={note}
                 onChangeText={setNote}
-            />
-            <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>Send</Text>
+            /> */}
+            <TouchableOpacity style={styles.button} onPress={handleSearchTransferPhone}>
+                <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>
         </View>
     );
