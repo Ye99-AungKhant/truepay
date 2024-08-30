@@ -17,7 +17,7 @@ export default function ActionButton({ color, icon, label, path }) {
                 ]}>
                 <MaterialIcons
                     name={icon ? icon : "attach-money"}
-                    size={32}
+                    size={40}
                     color="white"
                 />
             </View>
@@ -35,9 +35,9 @@ const styles = StyleSheet.create({
         gap: 8,
     },
     actionButton: {
-        width: 68,
-        height: 68,
-        borderRadius: 68,
+        width: 55,
+        height: 55,
+        borderRadius: 55,
         justifyContent: "center",
         alignItems: "center",
     },

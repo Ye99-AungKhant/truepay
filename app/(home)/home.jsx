@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     StatusBar,
     ScrollView,
+    ActivityIndicator,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Transactions from "../components/Transactions";
@@ -70,11 +71,16 @@ export default function Home() {
                     />
                     <ActionButton
                         color="#0e9ce2"
-                        icon="qr-code-2"
+                        icon="qr-code-scanner"
                         label="Scan"
                         path="/scan"
                     />
-
+                    <ActionButton
+                        color="#0e9ce2"
+                        icon="qr-code-2"
+                        label="Receive"
+                        path="/scan"
+                    />
                     <ActionButton
                         color="#7b48f4"
                         icon="attach-money"
@@ -94,6 +100,7 @@ export default function Home() {
                     <Transactions />
                 </View>
             </View>
+            {isLoading && <View style={styles.loadingOverlay}><ActivityIndicator size="large" color="#6d25e5" /></View>}
         </SafeAreaView>
     );
 }
@@ -140,5 +147,15 @@ const styles = StyleSheet.create({
             fontWeight: "bold",
             color: "#aaa",
         },
+    },
+    loadingOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });   

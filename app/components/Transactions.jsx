@@ -72,10 +72,8 @@ export default function Transactions() {
         <ScrollView>
             {data && data.map(transaction => {
                 return (
-                    <View style={styles.container}>
-                        <View
-                            style={styles.transaction}
-                            key={transaction.id}>
+                    <View style={styles.container} key={transaction.id}>
+                        <View style={styles.transaction}>
                             <MaterialIcons
                                 name="compare-arrows"
                                 size={32}

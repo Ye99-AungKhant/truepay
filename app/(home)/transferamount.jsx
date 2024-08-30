@@ -34,6 +34,8 @@ const TransferAmount = () => {
     const [available, setAvailable] = useState(`${userData.balance}`);
     const queryClient = useQueryClient();
 
+
+
     const maskNumber = (number) => {
         const maskedSection = number.slice(0, -4).replace(/\d/g, '*');
         const lastFourDigits = number.slice(-4);

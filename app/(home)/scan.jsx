@@ -8,10 +8,14 @@ import {
 import { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { CameraView, useCameraPermissions } from "expo-camera";
+import { router } from "expo-router";
+import { useQuery } from "react-query";
+import { searchTransferPhone } from "@/lib/Fetcher";
 
 export default function Scan() {
     const [facing, setFacing] = useState("back");
     const [permission, requestPermission] = useCameraPermissions();
+    const [scanned, setScanned] = useState(null);
     if (!permission) {
         return <View />;
     }
@@ -35,14 +39,22 @@ export default function Scan() {
     function toggleCameraFacing() {
         setFacing(current => (current === "back" ? "front" : "back"));
     }
+
+    const handleQrCode = async ({ type, data }) => {
+        setScanned(data);
+        const scantransfer = await searchTransferPhone(data)
+        console.log('scantransfer', scantransfer)
+        router.push({ pathname: `/(home)/transferamount`, params: scantransfer })
+
+    }
+
+
     return (
         <View style={styles.container}>
             <CameraView
                 style={styles.camera}
                 facing={facing}
-                onBarcodeScanned={result => {
-                    console.log(result.data);
-                }}>
+                onBarcodeScanned={scanned ? null : handleQrCode}>
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity
                         style={styles.button}

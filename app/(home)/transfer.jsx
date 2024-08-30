@@ -26,8 +26,9 @@ export default function Transfer() {
             setError('This number is not register')
         },
         onSuccess: async (data) => {
-            console.log('transfer user', data);
-            router.push({ pathname: `/(home)/transferamount`, params: data })
+            const routeUrl = router.push({ pathname: `/(home)/transferamount`, params: data })
+            console.log('transfer user url', routeUrl);
+            return routeUrl
         },
     });
 
