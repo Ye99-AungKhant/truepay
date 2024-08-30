@@ -1,4 +1,4 @@
-import { View, TextInput, Text, StyleSheet } from "react-native";
+import { View, TextInput, Text, StyleSheet, StatusBar } from "react-native";
 import { useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -33,6 +33,7 @@ export default function FxRate() {
     }
     return (
         <View style={{ padding: 20 }}>
+            <StatusBar barStyle="dark-content" />
             <View style={styles.item}>
                 <MaterialIcons
                     name="attach-money"

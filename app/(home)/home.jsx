@@ -21,12 +21,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useContext, useEffect, useState } from "react";
 import { MainContext } from "../provider/AppProvider";
 import { getUserProfileData } from "@/lib/Fetcher";
-import { router, useRouter } from "expo-router";
-
+import { router, useNavigation, useRouter } from "expo-router";
 
 export default function Home() {
     const [authId, setAuthId] = useState(null)
     const { isAuthenticated, setIsAuthenticated, userData, setUserData, verifiedData, setVerifiedData } = useContext(MainContext);
+    const navigation = useNavigation()
 
     useEffect(() => {
         const checkAuthToken = async () => {
@@ -54,46 +54,65 @@ export default function Home() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar barStyle='light-content' />
+            <StatusBar barStyle="light-content" />
             <LinearGradient
-                colors={["rgba(0,0,0,0.8)", "transparent"]}
+                colors={["rgba(0,0,0,0.5)", "transparent"]}
                 style={styles.background}
             />
 
             <View>
+                <TouchableOpacity onPress={() => navigation.toggleDrawer()} style={styles.menu}>
+                    <MaterialIcons
+                        name="menu"
+                        size={25}
+                        color='white'
+                    />
+                </TouchableOpacity>
                 <BalanceCard balance={userData.balance.toLocaleString()} />
-                <View style={styles.actions}>
-                    <ActionButton
-                        color="#ff009d"
-                        icon="compare-arrows"
-                        label="Transfer"
-                        path="/transfer"
-                    />
-                    <ActionButton
-                        color="#0e9ce2"
-                        icon="qr-code-scanner"
-                        label="Scan"
-                        path="/scan"
-                    />
-                    <ActionButton
-                        color="#0e9ce2"
-                        icon="qr-code-2"
-                        label="Receive"
-                        path="/receive"
-                    />
-                    <ActionButton
-                        color="#7b48f4"
-                        icon="attach-money"
-                        label="Fx Rate"
-                        path="/fxrate"
-                    />
-                    <ActionButton
-                        color="#ff379e"
-                        icon="history"
-                        label="History"
-                        path="/history"
-                    />
-                </View>
+
+                {userData.status != 'Verified'
+                    ?
+                    <View style={[styles.actions, { justifyContent: 'center' }]}>
+                        <Text style={{ color: 'white' }}>
+                            {userData.status == 'Unverified' ? 'You need to verify. Go to status of profile' :
+                                `Your verification process is ongoing...${'\n'} We will complete within 24 hours.`
+                            }
+                        </Text>
+                    </View>
+                    :
+                    <View style={styles.actions}>
+                        <ActionButton
+                            color="#ff009d"
+                            icon="compare-arrows"
+                            label="Transfer"
+                            path="/transfer"
+                        />
+                        <ActionButton
+                            color="#0e9ce2"
+                            icon="qr-code-scanner"
+                            label="Scan"
+                            path="/scan"
+                        />
+                        <ActionButton
+                            color="#93E0EC"
+                            icon="qr-code-2"
+                            label="Receive"
+                            path="/receive"
+                        />
+                        <ActionButton
+                            color="#7b48f4"
+                            icon="attach-money"
+                            label="Fx Rate"
+                            path="/fxrate"
+                        />
+                        <ActionButton
+                            color="#ff379e"
+                            icon="history"
+                            label="History"
+                            path="/history"
+                        />
+                    </View>
+                }
                 <View style={styles.moreActionBar}></View>
                 <View style={styles.transactions}>
                     <Text style={styles.text.label}>Recent Transactions</Text>
@@ -107,14 +126,15 @@ export default function Home() {
 
 const styles = StyleSheet.create({
     menu: {
-        marginHorizontal: 20
+        marginHorizontal: 20,
+        marginVertical: 30
     },
     background: {
         position: "absolute",
         left: 0,
         right: 0,
         top: 100,
-        height: 300,
+        height: 500,
     },
     container: {
         backgroundColor: "#6d25e5",
@@ -136,6 +156,7 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
     transactions: {
+        height: 500,
         padding: 20,
         gap: 10,
         borderTopLeftRadius: 25,

@@ -43,6 +43,7 @@ export function AppStack() {
         component={HomeLayout}
         options={{
           title: 'Home',
+          headerShown: false,
         }}
       />
       <Drawer.Screen

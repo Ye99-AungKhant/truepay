@@ -5,6 +5,7 @@ import {
     TextInput,
     TouchableOpacity,
     ActivityIndicator,
+    StatusBar,
 } from "react-native";
 import { useRef, useState } from "react";
 import { useMutation } from "react-query";
@@ -41,6 +42,7 @@ export default function Transfer() {
 
     return (
         <View style={styles.container}>
+            <StatusBar barStyle="dark-content" />
             <TextInput
                 style={styles.input}
                 placeholder="Please enter phone number"

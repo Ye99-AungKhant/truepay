@@ -3,7 +3,8 @@ import {
     Text,
     Button,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
+    StatusBar
 } from "react-native";
 import { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -51,6 +52,7 @@ export default function Scan() {
 
     return (
         <View style={styles.container}>
+            <StatusBar barStyle="dark-content" />
             <CameraView
                 style={styles.camera}
                 facing={facing}

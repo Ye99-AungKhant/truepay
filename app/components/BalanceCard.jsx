@@ -7,9 +7,9 @@ export default function BalanceCard({ balance }) {
                 <Text style={styles.text.label}>ks</Text>
                 <Text style={styles.text.amount}>{balance}</Text>
             </View>
-            <View style={styles.balanceGrowth}>
+            {/* <View style={styles.balanceGrowth}>
                 <Text style={styles.text.growth}>+520 Today</Text>
-            </View>
+            </View> */}
         </View>
     );
 }
