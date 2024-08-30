@@ -79,7 +79,7 @@ export default function Home() {
                         color="#0e9ce2"
                         icon="qr-code-2"
                         label="Receive"
-                        path="/scan"
+                        path="/receive"
                     />
                     <ActionButton
                         color="#7b48f4"
