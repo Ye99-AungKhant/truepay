@@ -7,6 +7,7 @@ import Scan from './scan';
 import FxRate from './fxrate';
 import History from './history';
 import TransferAmount from './transferamount';
+import TransferSuccess from './transfersuccess';
 
 const HomeLayout = ({ navigation }) => {
     const Stack = createNativeStackNavigator();
@@ -26,6 +27,11 @@ const HomeLayout = ({ navigation }) => {
             <Stack.Screen
                 name="transferamount"
                 component={TransferAmount}
+                options={{ title: "Transfer" }}
+            />
+            <Stack.Screen
+                name="transfersuccess"
+                component={TransferSuccess}
                 options={{ title: "Transfer" }}
             />
             <Stack.Screen

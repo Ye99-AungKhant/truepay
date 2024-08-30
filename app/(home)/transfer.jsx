@@ -51,7 +51,7 @@ export default function Transfer() {
             {error && <Text style={styles.errorText}>{error}</Text>}
 
             <TouchableOpacity style={[styles.button, { backgroundColor: transferPhone.length > 10 ? "#6d25e5" : "gray" }]} onPress={handleSearchTransferPhone} disabled={transferPhone.length > 10 ? false : true}>
-                <Text style={styles.buttonText}>{isLoading ? <ActivityIndicator size="small" color="#6d25e5" /> : 'Next'}</Text>
+                <Text style={styles.buttonText}>{isLoading ? <ActivityIndicator size="small" color="white" /> : 'Next'}</Text>
             </TouchableOpacity>
         </View>
     );

@@ -14,9 +14,9 @@ import OtpInput from './../components/OtpInput';
 import { router, useLocalSearchParams } from "expo-router";
 import { useGlobalSearchParams } from "expo-router";
 import { MainContext } from "../provider/AppProvider";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { transfer } from "@/lib/Fetcher";
-import { queryClient } from "../_layout";
+
 
 
 const TransferAmount = () => {
@@ -31,12 +31,19 @@ const TransferAmount = () => {
     const transferUser = useGlobalSearchParams()
     const { userData } = useContext(MainContext);
     const [available, setAvailable] = useState(`${userData.balance}`);
+    const queryClient = useQueryClient();
+
+    const maskNumber = (number) => {
+        const maskedSection = number.slice(0, -4).replace(/\d/g, '*');
+        const lastFourDigits = number.slice(-4);
+        return maskedSection + lastFourDigits;
+    };
+
+    const maskedPhoneNumber = maskNumber(transferUser.phone)
 
     const handleModal = () => {
         setVisible(!visible)
     }
-
-
 
     useEffect(() => {
         console.log(otp);
@@ -47,14 +54,18 @@ const TransferAmount = () => {
     }, [otp])
 
     const { mutate, isLoading, isError } = useMutation(async (data) => {
-        await transfer(data);
+        return await transfer(data);
     }, {
         onError: async (e) => {
             console.log(e);
         },
         onSuccess: async (data) => {
+            console.log('transferres', data);
+
+            setOtp('')
+            setVisible(!visible)
             queryClient.invalidateQueries(['userData'])
-            router.push('/(home)/home')
+            router.push({ pathname: '/(home)/transfersuccess', params: { authId: userData.id, transferData: JSON.stringify(data), recipientData: JSON.stringify(transferUser) } })
         },
     });
 
@@ -70,7 +81,7 @@ const TransferAmount = () => {
                         <Text style={[styles.modalHeader]}>Enter Password</Text>
                     </View>
                     <View style={[styles.divider, styles.modalBody]}>
-                        <Text>Transfer to Ye Aung</Text>
+                        <Text>Transfer to {transferUser.name}</Text>
                         <Text style={{ fontSize: 40 }}>{amount}</Text>
                     </View>
                     <View style={{ marginVertical: 10 }}>
@@ -93,7 +104,7 @@ const TransferAmount = () => {
 
                 <View style={styles.item}>
                     <Text>{transferUser.name}</Text>
-                    <Text> ({transferUser.phone})</Text>
+                    <Text> ({maskedPhoneNumber})</Text>
                 </View>
             </View>
             <View style={styles.transfercard}>

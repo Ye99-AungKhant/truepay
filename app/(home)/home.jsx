@@ -60,7 +60,7 @@ export default function Home() {
             />
 
             <View>
-                <BalanceCard balance={userData.balance} />
+                <BalanceCard balance={userData.balance.toLocaleString()} />
                 <View style={styles.actions}>
                     <ActionButton
                         color="#ff009d"
