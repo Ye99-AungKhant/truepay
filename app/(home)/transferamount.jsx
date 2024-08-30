@@ -6,6 +6,7 @@ import {
     TouchableOpacity,
     Image,
     Modal,
+    Alert,
 } from "react-native";
 import { useContext, useEffect, useRef, useState } from "react";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
@@ -39,9 +40,12 @@ const TransferAmount = () => {
         return maskedSection + lastFourDigits;
     };
 
-    const maskedPhoneNumber = maskNumber(transferUser.phone)
+    const maskedPhoneNumber = maskNumber(transferUser.phone ? transferUser.phone : '0000')
 
     const handleModal = () => {
+        if (amount > userData.balance) {
+            return
+        }
         setVisible(!visible)
     }
 
@@ -53,7 +57,7 @@ const TransferAmount = () => {
 
     }, [otp])
 
-    const { mutate, isLoading, isError } = useMutation(async (data) => {
+    const { mutate, isLoading, isError, error } = useMutation(async (data) => {
         return await transfer(data);
     }, {
         onError: async (e) => {
@@ -82,7 +86,7 @@ const TransferAmount = () => {
                     </View>
                     <View style={[styles.divider, styles.modalBody]}>
                         <Text>Transfer to {transferUser.name}</Text>
-                        <Text style={{ fontSize: 40 }}>{amount}</Text>
+                        <Text style={{ fontSize: 40 }}>{amount.toLocaleString()}</Text>
                     </View>
                     <View style={{ marginVertical: 10 }}>
                         <OtpInput
@@ -92,7 +96,7 @@ const TransferAmount = () => {
                             }}
                         />
                     </View>
-                    {isError && <Text style={{ color: 'red', textAlign: 'center' }}>your password is wrong</Text>}
+                    {isError && <Text style={{ color: 'red', textAlign: 'center' }}>Your password is wrong</Text>}
                     {isLoading && <Text style={{ textAlign: 'center' }}>transfering...</Text>}
                 </View>
             </ModalPopUp>
@@ -131,7 +135,7 @@ const TransferAmount = () => {
                     value={note}
                     onChangeText={setNote}
                 />
-                <TouchableOpacity style={styles.button} onPress={handleModal}>
+                <TouchableOpacity style={styles.button} onPress={() => handleModal()}>
                     <Text style={styles.buttonText}>Transfer</Text>
                 </TouchableOpacity>
             </View>
