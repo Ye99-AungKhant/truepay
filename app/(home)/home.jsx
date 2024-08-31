@@ -22,11 +22,15 @@ import { useContext, useEffect, useState } from "react";
 import { MainContext } from "../provider/AppProvider";
 import { getUserProfileData } from "@/lib/Fetcher";
 import { router, useNavigation, useRouter } from "expo-router";
+import { usePushNotifications } from "@/usePushNotifications";
 
 export default function Home() {
     const [authId, setAuthId] = useState(null)
     const { isAuthenticated, setIsAuthenticated, userData, setUserData, verifiedData, setVerifiedData } = useContext(MainContext);
     const navigation = useNavigation()
+    const { notification } = usePushNotifications();
+    const expopushdata = JSON.stringify(notification, undefined, 2)
+    console.log('expopushdata', expopushdata)
 
     useEffect(() => {
         const checkAuthToken = async () => {
@@ -43,6 +47,7 @@ export default function Home() {
             }
         };
         checkAuthToken();
+
     }, [isAuthenticated]);
 
     const { data, error, isLoading } = useQuery(['userData', authId], () => getUserProfileData(authId), {

@@ -20,6 +20,7 @@ export const usePushNotifications = (): PushNotificationState => {
         }),
     });
 
+
     const [expoPushToken, setExpoPushToken] = useState<
         Notifications.ExpoPushToken | undefined
     >();
@@ -67,7 +68,11 @@ export const usePushNotifications = (): PushNotificationState => {
     }
 
     useEffect(() => {
+        console.log('usePushNotifications');
+
         registerForPushNotificationsAsync().then((token) => {
+            console.log('token add...');
+
             setExpoPushToken(token);
         });
 

@@ -15,6 +15,7 @@ import InputField from './components/InputField';
 import { router } from "expo-router";
 import { registerUser } from '@/lib/Fetcher';
 import { MainContext } from './provider/AppProvider';
+import { usePushNotifications } from '@/usePushNotifications';
 
 const Register = () => {
     const nameRef = useRef(null);
@@ -25,6 +26,8 @@ const Register = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [errors, setErrors] = useState({})
     const { login } = useContext(MainContext)
+    const { expoPushToken } = usePushNotifications();
+    const expopushToken = expoPushToken?.data
 
     const formValid = (name, phone, email, password, confirmPassword) => {
         let errors = {}
@@ -56,7 +59,7 @@ const Register = () => {
         let password = passwordRef.current?.getValue()
         let confirmPassword = confirmPasswordRef.current?.getValue()
         if (formValid(name, phone, email, password, confirmPassword)) {
-            create.mutate({ name, phone, email, password })
+            create.mutate({ name, phone, email, password, expoPushToken: expopushToken })
 
         } else {
             Alert.alert('Registration Failed', 'Please check the form for errors.');
@@ -69,7 +72,6 @@ const Register = () => {
         },
         onSuccess: async (data) => {
             login(data)
-            router.push('/(home)')
         },
     });
 

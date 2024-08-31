@@ -16,6 +16,7 @@ const AppProvider = ({ children }) => {
         status: null,
         profile_url: null,
         balance: 0,
+        expoPushToken: '',
     });
     const [verifiedData, setVerifiedData] = useState({
         id_type: null,
@@ -56,9 +57,7 @@ const AppProvider = ({ children }) => {
     const logout = async () => {
         try {
             await AsyncStorage.removeItem('authToken');
-            const token = await AsyncStorage.get('authToken')
             setIsAuthenticated(false);
-            console.log('logout', token);
 
         } catch (error) {
             console.error('Error removing auth token', error);

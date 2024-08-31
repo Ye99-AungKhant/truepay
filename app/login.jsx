@@ -16,6 +16,7 @@ import { useMutation } from 'react-query';
 import { logInUser } from '@/lib/Fetcher';
 import { useNavigation } from '@react-navigation/native';
 import { MainContext } from './provider/AppProvider';
+import { usePushNotifications } from '@/usePushNotifications';
 
 const Login = () => {
     const emailRef = useRef(null);
@@ -24,6 +25,8 @@ const Login = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const navigation = useNavigation();
     const { login } = useContext(MainContext)
+    const { expoPushToken } = usePushNotifications();
+    const expopushToken = expoPushToken?.data
 
     const formValid = (email, password,) => {
         if (!email) errors.email = 'Email is required'
@@ -41,7 +44,7 @@ const Login = () => {
         let password = passwordRef.current?.getValue()
 
         if (formValid(email, password,)) {
-            create.mutate({ email, password })
+            create.mutate({ email, password, expoPushToken: expopushToken })
 
         } else {
             Alert.alert('Login Failed', 'Please check the form for errors.');
@@ -53,6 +56,7 @@ const Login = () => {
             console.log(e);
         },
         onSuccess: async (data) => {
+            console.log('login', data);
             login(data)
         },
     });

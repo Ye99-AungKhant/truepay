@@ -30,10 +30,10 @@ const TransferAmount = () => {
     const [visible, setVisible] = useState(false)
     const [otp, setOtp] = useState('')
     const transferUser = useGlobalSearchParams()
+
     const { userData } = useContext(MainContext);
     const [available, setAvailable] = useState(`${userData.balance}`);
     const queryClient = useQueryClient();
-
 
 
     const maskNumber = (number) => {
