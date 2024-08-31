@@ -32,15 +32,18 @@ export default function Home() {
         const checkAuthToken = async () => {
             try {
                 const token = await AsyncStorage.getItem('authToken');
+                if (!token) {
+                    return router.push('/welcome')
+                }
                 const decoded = jwtDecode(token)
                 setAuthId(decoded.id)
                 console.log(decoded.id);
             } catch (error) {
-                console.error('Error fetching auth token', error);
+                console.error('Error fetching auth token home', error);
             }
         };
         checkAuthToken();
-    }, []);
+    }, [isAuthenticated]);
 
     const { data, error, isLoading } = useQuery(['userData', authId], () => getUserProfileData(authId), {
         enabled: !!authId,

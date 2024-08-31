@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "56089853184",
+    "project_id": "expopushnotification-c568d",
+    "storage_bucket": "expopushnotification-c568d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:56089853184:android:36f92f8bf42eba4f41c7e5",
+        "android_client_info": {
+          "package_name": "com.yeaungkhant077.uTruePayndefined"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWihfyTBZ5eTbQUclTiOI-ynYSyOOnD-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

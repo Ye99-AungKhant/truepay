@@ -16,14 +16,16 @@ export default function ProfileIndex() {
         <View>
             <View style={styles.container}>
                 <View style={styles.divider}>
-                    <TouchableOpacity style={styles.item} onPress={() => router.navigate('verification')} disabled={userData.status == 'Pending' ? false : true}>
+                    <TouchableOpacity style={styles.item} onPress={() => router.navigate('verification')} disabled={userData.status == 'Unverified' ? false : true}>
                         <Text>Status</Text><View style={userData.status != 'Verified' ? styles.chip.pending : styles.chip.verified}><Text style={styles.chipText}>{userData.status}</Text></View>
                     </TouchableOpacity>
                 </View>
                 <View style={[styles.divider]}>
                     <TouchableOpacity style={styles.item} onPress={() =>
                         router.navigate('profileupdate')
-                    }>
+                    }
+                        disabled={userData.status != 'Unverified' ? false : true}
+                    >
                         <Text>Profile Photo</Text>
                         <MaterialIcons
                             name="arrow-forward-ios"

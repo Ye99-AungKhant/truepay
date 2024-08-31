@@ -7,10 +7,11 @@ import {
     ActivityIndicator,
     StatusBar,
 } from "react-native";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { searchTransferPhone } from "@/lib/Fetcher";
 import { router } from "expo-router";
+import { MainContext } from "../provider/AppProvider";
 export default function Transfer() {
     const transferPhoneInput = useRef();
     const amountInput = useRef();
@@ -20,6 +21,7 @@ export default function Transfer() {
     const [amount, setAmount] = useState(0);
     const [note, setNote] = useState("");
     const [error, setError] = useState('')
+    const { userData } = useContext(MainContext)
 
     const { mutate, isLoading } = useMutation(async data => searchTransferPhone(data), {
         onError: async (e) => {
@@ -36,7 +38,10 @@ export default function Transfer() {
     const handleSearchTransferPhone = () => {
         // router.push('/(home)/transferamount')
         console.log('transferPhone', transferPhone);
-        mutate(transferPhone)
+        if (userData.phone != transferPhone) {
+            mutate(transferPhone)
+        }
+        setError('You can not transfer yourself')
     }
 
 

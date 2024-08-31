@@ -54,7 +54,6 @@ const Login = () => {
         },
         onSuccess: async (data) => {
             login(data)
-            router.push('/(home)')
         },
     });
 

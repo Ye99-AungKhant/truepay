@@ -60,9 +60,9 @@ export default function CameraComponent() {
 
     if (!permission.granted) {
         return (
-            <View style={styles.container}>
+            <View style={styles.permissionContainer}>
                 <Text style={styles.message}>We need your permission to show the camera</Text>
-                <Button onPress={requestPermission} title="grant permission" />
+                <Button onPress={requestPermission} title="Allow camera permission" color='#6d25e5' />
             </View>
         );
     }
@@ -103,6 +103,15 @@ const styles = StyleSheet.create({
     },
     camera: {
         flex: 1
+    },
+    permissionContainer: {
+        borderRadius: 10,
+        backgroundColor: '#fefefe',
+        padding: 10,
+        margin: 10,
+    },
+    message: {
+        marginBottom: 10
     },
     buttonContainer: {
         flex: 1,

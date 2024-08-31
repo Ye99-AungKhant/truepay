@@ -31,10 +31,10 @@ const AppProvider = ({ children }) => {
         const checkAuthToken = async () => {
             try {
                 const token = await AsyncStorage.getItem('authToken');
-                setIsAuthenticated(!!token);
                 if (!token) {
                     return router.push('/welcome')
                 }
+                setIsAuthenticated(!!token);
             } catch (error) {
                 console.error('Error fetching auth token', error);
             }
@@ -47,6 +47,7 @@ const AppProvider = ({ children }) => {
         try {
             await AsyncStorage.setItem('authToken', token);
             setIsAuthenticated(true);
+            router.push('/(home)')
         } catch (error) {
             console.error('Error storing auth token', error);
         }
