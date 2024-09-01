@@ -36,7 +36,6 @@ export default function Home() {
     const [refreshing, setRefreshing] = useState(false);
     const [outerScrollEnabled, setOuterScrollEnabled] = useState(false);
 
-
     console.log('expopushdata', expopushdata)
 
 
@@ -127,9 +126,8 @@ export default function Home() {
                         ?
                         <View style={[styles.actions, { justifyContent: 'center' }]}>
                             <Text style={{ color: 'white' }}>
-                                {userData.status == 'Unverified' ? 'You need to verify. Go to status of profile' :
-                                    `Your verification process is ongoing...${'\n'} We will complete within 24 hours.`
-                                }
+                                {userData.status == 'Unverified' && 'You need to verify. Go to status of profile'}
+                                {userData.status == 'Pending' && `Your verification process is ongoing...${'\n'} We will complete within 24 hours.`}
                             </Text>
                         </View>
                         :
@@ -171,8 +169,9 @@ export default function Home() {
                         <Text style={styles.text.label}>Recent Transactions</Text>
                         <Transactions />
                     </View>
+                    {isLoading && <View style={styles.loadingOverlay}><ActivityIndicator size="large" color="#6d25e5" /></View>}
                 </View>
-                {isLoading && <View style={styles.loadingOverlay}><ActivityIndicator size="large" color="#6d25e5" /></View>}
+
             </ScrollView>
         </SafeAreaView>
     );
@@ -227,9 +226,10 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         left: 0,
+        padding: 50,
         width: '100%',
         height: '100%',
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
         justifyContent: 'center',
         alignItems: 'center',
     },

@@ -41,7 +41,6 @@ const TransferAmount = () => {
         const [baseUrl, path] = baseUrlAndPath.split(/(?<=\/o\/)/);
         const encodePath = encodeURIComponent(path)
         encodeFullUrl = baseUrl + encodePath + '?' + queryString
-        console.log('encodeFullUrl', encodeFullUrl);
     }
 
 
@@ -189,7 +188,7 @@ const styles = StyleSheet.create({
     },
     input: {
         flexGrow: 1,
-        fontSize: 20,
+        fontSize: 16,
         paddingTop: 10,
         paddingBottom: 10,
         borderBottomWidth: 1,

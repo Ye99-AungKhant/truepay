@@ -9,6 +9,7 @@ import History from './history';
 import TransferAmount from './transferamount';
 import TransferSuccess from './transfersuccess';
 import Receive from './receive';
+import TransferSuccessNoti from './transfersuccessnoti';
 
 const HomeLayout = ({ navigation }) => {
     const Stack = createNativeStackNavigator();
@@ -45,6 +46,17 @@ const HomeLayout = ({ navigation }) => {
             <Stack.Screen
                 name="transfersuccess"
                 component={TransferSuccess}
+                options={{
+                    title: "Transfer",
+                    headerStyle: {
+                        backgroundColor: '#6d25e5'
+                    },
+                    headerTintColor: '#fff',
+                }}
+            />
+            <Stack.Screen
+                name="transfersuccessnoti"
+                component={TransferSuccessNoti}
                 options={{
                     title: "Transfer",
                     headerStyle: {
@@ -97,6 +109,7 @@ const HomeLayout = ({ navigation }) => {
                     headerTintColor: '#fff',
                 }}
             />
+
         </Stack.Navigator>
     )
 }

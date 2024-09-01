@@ -5,6 +5,7 @@ import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 
 import { Platform } from "react-native";
+import { router } from "expo-router";
 
 export interface PushNotificationState {
     expoPushToken?: Notifications.ExpoPushToken;
@@ -67,6 +68,13 @@ export const usePushNotifications = (): PushNotificationState => {
         return token;
     }
 
+    const handleNotificationTap = (data: any) => {
+        if (data) {
+            // @ts-ignore
+            router.push({ pathname: '/(home)/transfersuccessnoti', params: data })
+        }
+    };
+
     useEffect(() => {
         console.log('usePushNotifications');
 
@@ -79,11 +87,15 @@ export const usePushNotifications = (): PushNotificationState => {
         notificationListener.current =
             Notifications.addNotificationReceivedListener((notification) => {
                 setNotification(notification);
+                // const data = notification.request.content.data;
+                // handleNotificationTap(notification)
             });
 
         responseListener.current =
             Notifications.addNotificationResponseReceivedListener((response) => {
-                console.log(response);
+                const data = response.notification.request.content.data;
+                console.log('noti tap', data);
+                handleNotificationTap(data)
             });
 
         return () => {
@@ -100,3 +112,4 @@ export const usePushNotifications = (): PushNotificationState => {
         notification,
     };
 };
+
