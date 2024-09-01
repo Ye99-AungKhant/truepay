@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, BackHandler } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { MaterialIcons } from "@expo/vector-icons";
-import { router } from 'expo-router';
+import { router, useNavigation } from 'expo-router';
 import { jwtDecode } from "jwt-decode";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation } from 'react-query';
@@ -10,7 +10,26 @@ import { getUserProfileData } from '@/lib/Fetcher';
 import { MainContext } from '../provider/AppProvider';
 
 export default function ProfileIndex() {
+    const navigation = useNavigation()
     const { userData, setUserData, verifiedData, setVerifiedData } = useContext(MainContext)
+
+
+    useEffect(() => {
+        const backAction = () => {
+            // Prevent going back to the welcome screen
+            if (navigation.isFocused()) {
+                router.push('/(home)/home')
+            }
+            return false;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            backAction
+        );
+
+        return () => backHandler.remove();
+    }, [navigation]);
 
     return (
         <View>

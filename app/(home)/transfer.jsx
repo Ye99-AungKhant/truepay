@@ -37,7 +37,7 @@ export default function Transfer() {
         // router.push('/(home)/transferamount')
         console.log('transferPhone', transferPhone);
         if (userData.phone != transferPhone) {
-            mutate(transferPhone)
+            return mutate(transferPhone)
         }
         setError('You can not transfer yourself')
     }

@@ -30,10 +30,20 @@ const TransferAmount = () => {
     const [visible, setVisible] = useState(false)
     const [otp, setOtp] = useState('')
     const transferUser = useGlobalSearchParams()
-
     const { userData } = useContext(MainContext);
     const [available, setAvailable] = useState(`${userData.balance}`);
     const queryClient = useQueryClient();
+    const transferUserImg = transferUser?.profile_url
+    let encodeFullUrl = ''
+    if (transferUserImg) {
+        const fullUrl = transferUserImg;
+        const [baseUrlAndPath, queryString] = fullUrl.split('?');
+        const [baseUrl, path] = baseUrlAndPath.split(/(?<=\/o\/)/);
+        const encodePath = encodeURIComponent(path)
+        encodeFullUrl = baseUrl + encodePath + '?' + queryString
+        console.log('encodeFullUrl', encodeFullUrl);
+    }
+
 
 
     const maskNumber = (number) => {
@@ -71,6 +81,7 @@ const TransferAmount = () => {
             setOtp('')
             setVisible(!visible)
             queryClient.invalidateQueries(['userData'])
+            queryClient.invalidateQueries(['transactionHistory'])
             router.push({ pathname: '/(home)/transfersuccess', params: { authId: userData.id, transferData: JSON.stringify(data), recipientData: JSON.stringify(transferUser) } })
         },
     });
@@ -104,7 +115,7 @@ const TransferAmount = () => {
             </ModalPopUp>
             <View style={styles.card}>
                 {transferUser.profile_url ?
-                    <Image source={{ uri: transferUser.profile_url }} style={styles.image} />
+                    <Image source={{ uri: encodeFullUrl }} style={styles.image} />
                     : <FontAwesome name="user-circle" size={50} color="gray" />
                 }
 

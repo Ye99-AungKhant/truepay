@@ -9,6 +9,9 @@ import {
     StatusBar,
     ScrollView,
     ActivityIndicator,
+    BackHandler,
+    Alert,
+    RefreshControl,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Transactions from "../components/Transactions";
@@ -30,7 +33,37 @@ export default function Home() {
     const navigation = useNavigation()
     const { notification } = usePushNotifications();
     const expopushdata = JSON.stringify(notification, undefined, 2)
+    const [refreshing, setRefreshing] = useState(false);
+    const [outerScrollEnabled, setOuterScrollEnabled] = useState(false);
+
+
     console.log('expopushdata', expopushdata)
+
+
+    useEffect(() => {
+        const backAction = () => {
+            // Prevent going back to the welcome screen
+            if (navigation.isFocused()) {
+                Alert.alert('Hold on!', 'Are you sure you want to exit the app?', [
+                    {
+                        text: 'Cancel',
+                        onPress: () => null,
+                        style: 'cancel',
+                    },
+                    { text: 'YES', onPress: () => BackHandler.exitApp() },
+                ]);
+                return true;
+            }
+            return false;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            backAction
+        );
+
+        return () => backHandler.remove();
+    }, [navigation]);
 
     useEffect(() => {
         const checkAuthToken = async () => {
@@ -50,84 +83,97 @@ export default function Home() {
 
     }, [isAuthenticated]);
 
-    const { data, error, isLoading } = useQuery(['userData', authId], () => getUserProfileData(authId), {
+    const { data, error, isLoading, refetch } = useQuery(['userData', authId], () => getUserProfileData(authId), {
         enabled: !!authId,
         onSuccess: (data) => {
             console.log(data);
             setUserData(data)
             setVerifiedData(...data.userverify)
+            setRefreshing(false)
         },
     });
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        refetch();
+    };
 
 
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="light-content" />
-            <LinearGradient
-                colors={["rgba(0,0,0,0.5)", "transparent"]}
-                style={styles.background}
-            />
-
-            <View>
-                <TouchableOpacity onPress={() => navigation.toggleDrawer()} style={styles.menu}>
-                    <MaterialIcons
-                        name="menu"
-                        size={25}
-                        color='white'
-                    />
-                </TouchableOpacity>
-                <BalanceCard balance={userData.balance.toLocaleString()} />
-
-                {userData.status != 'Verified'
-                    ?
-                    <View style={[styles.actions, { justifyContent: 'center' }]}>
-                        <Text style={{ color: 'white' }}>
-                            {userData.status == 'Unverified' ? 'You need to verify. Go to status of profile' :
-                                `Your verification process is ongoing...${'\n'} We will complete within 24 hours.`
-                            }
-                        </Text>
-                    </View>
-                    :
-                    <View style={styles.actions}>
-                        <ActionButton
-                            color="#ff009d"
-                            icon="compare-arrows"
-                            label="Transfer"
-                            path="/transfer"
-                        />
-                        <ActionButton
-                            color="#0e9ce2"
-                            icon="qr-code-scanner"
-                            label="Scan"
-                            path="/scan"
-                        />
-                        <ActionButton
-                            color="#93E0EC"
-                            icon="qr-code-2"
-                            label="Receive"
-                            path="/receive"
-                        />
-                        <ActionButton
-                            color="#7b48f4"
-                            icon="attach-money"
-                            label="Fx Rate"
-                            path="/fxrate"
-                        />
-                        <ActionButton
-                            color="#ff379e"
-                            icon="history"
-                            label="History"
-                            path="/history"
-                        />
-                    </View>
+            <ScrollView
+                scrollEnabled={outerScrollEnabled}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                 }
-                <View style={styles.moreActionBar}></View>
-                <View style={styles.transactions}>
-                    <Text style={styles.text.label}>Recent Transactions</Text>
-                    <Transactions />
+            >
+                <LinearGradient
+                    colors={["rgba(0,0,0,0.5)", "transparent"]}
+                    style={styles.background}
+                />
+
+                <View >
+                    <TouchableOpacity onPress={() => navigation.toggleDrawer()} style={styles.menu}>
+                        <MaterialIcons
+                            name="menu"
+                            size={25}
+                            color='white'
+                        />
+                    </TouchableOpacity>
+                    <BalanceCard balance={userData.balance.toLocaleString()} />
+
+                    {userData.status != 'Verified'
+                        ?
+                        <View style={[styles.actions, { justifyContent: 'center' }]}>
+                            <Text style={{ color: 'white' }}>
+                                {userData.status == 'Unverified' ? 'You need to verify. Go to status of profile' :
+                                    `Your verification process is ongoing...${'\n'} We will complete within 24 hours.`
+                                }
+                            </Text>
+                        </View>
+                        :
+                        <View style={styles.actions}>
+                            <ActionButton
+                                color="#ff009d"
+                                icon="compare-arrows"
+                                label="Transfer"
+                                path="/transfer"
+                            />
+                            <ActionButton
+                                color="#0e9ce2"
+                                icon="qr-code-scanner"
+                                label="Scan"
+                                path="/scan"
+                            />
+                            <ActionButton
+                                color="#93E0EC"
+                                icon="qr-code-2"
+                                label="Receive"
+                                path="/receive"
+                            />
+                            <ActionButton
+                                color="#7b48f4"
+                                icon="attach-money"
+                                label="Fx Rate"
+                                path="/fxrate"
+                            />
+                            <ActionButton
+                                color="#ff379e"
+                                icon="history"
+                                label="History"
+                                path="/history"
+                            />
+                        </View>
+                    }
+                    <View style={styles.moreActionBar}></View>
+                    <View style={styles.transactions}>
+                        <Text style={styles.text.label}>Recent Transactions</Text>
+                        <Transactions />
+                    </View>
                 </View>
-            </View>
-            {isLoading && <View style={styles.loadingOverlay}><ActivityIndicator size="large" color="#6d25e5" /></View>}
+                {isLoading && <View style={styles.loadingOverlay}><ActivityIndicator size="large" color="#6d25e5" /></View>}
+            </ScrollView>
         </SafeAreaView>
     );
 }

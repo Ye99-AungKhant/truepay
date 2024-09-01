@@ -23,37 +23,79 @@ const HomeLayout = ({ navigation }) => {
             <Stack.Screen
                 name="transfer"
                 component={Transfer}
-                options={{ title: "Transfer" }}
+                options={{
+                    title: "Transfer",
+                    headerStyle: {
+                        backgroundColor: '#6d25e5'
+                    },
+                    headerTintColor: '#fff',
+                }}
             />
             <Stack.Screen
                 name="transferamount"
                 component={TransferAmount}
-                options={{ title: "Transfer" }}
+                options={{
+                    title: "Transfer",
+                    headerStyle: {
+                        backgroundColor: '#6d25e5'
+                    },
+                    headerTintColor: '#fff',
+                }}
             />
             <Stack.Screen
                 name="transfersuccess"
                 component={TransferSuccess}
-                options={{ title: "Transfer" }}
+                options={{
+                    title: "Transfer",
+                    headerStyle: {
+                        backgroundColor: '#6d25e5'
+                    },
+                    headerTintColor: '#fff',
+                }}
             />
             <Stack.Screen
                 name="scan"
                 component={Scan}
-                options={{ title: "Scan" }}
+                options={{
+                    title: "Scan",
+                    headerStyle: {
+                        backgroundColor: '#6d25e5'
+                    },
+                    headerTintColor: '#fff',
+                }}
             />
             <Stack.Screen
                 name="receive"
                 component={Receive}
-                options={{ title: "Receive" }}
+                options={{
+                    title: "Receive",
+                    headerStyle: {
+                        backgroundColor: '#6d25e5'
+                    },
+                    headerTintColor: '#fff',
+                }}
             />
             <Stack.Screen
                 name="fxrate"
                 component={FxRate}
-                options={{ title: "Exchange Rate" }}
+                options={{
+                    title: "Exchange Rate",
+                    headerStyle: {
+                        backgroundColor: '#6d25e5'
+                    },
+                    headerTintColor: '#fff',
+                }}
             />
             <Stack.Screen
                 name="history"
                 component={History}
-                options={{ title: "History" }}
+                options={{
+                    title: "History",
+                    headerStyle: {
+                        backgroundColor: '#6d25e5'
+                    },
+                    headerTintColor: '#fff',
+                }}
             />
         </Stack.Navigator>
     )

@@ -14,13 +14,7 @@ import { router } from "expo-router";
 
 
 export default function Transactions() {
-    const [transactions, setTransactions] = useState([
-        { id: 1, msg: "EPC Bill", type: "out", time: "Jul 6, 2024" },
-        { id: 2, msg: "Deposit", type: "in", time: "Jul 5, 2024" },
-        { id: 3, msg: "Transfer", type: "in", time: "Jul 5, 2024" },
-        { id: 4, msg: "Wifi Bill", type: "out", time: "Jul 4, 2024" },
-        { id: 5, msg: "Payment", type: "in", time: "Jul 4, 2024" },
-    ]);
+
     const { userData } = useContext(MainContext)
     const authId = userData.id
 

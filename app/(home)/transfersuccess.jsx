@@ -34,7 +34,7 @@ const TransferSuccess = () => {
                         style={styles.success.icon}
                     />
                     <Text>Transaction Success</Text>
-                    <Text style={{ fontSize: 30 }}>{data.recipient_user_id == authId ? '+' : '-'}{data.amount.toLocaleString()} (ks)</Text>
+                    <Text style={{ fontSize: 30 }}>{data.recipient_user_id == authId ? '+' : '-'}{data.amount.toLocaleString()} <Text style={{ fontSize: 15, color: '#454545' }}>(ks)</Text></Text>
                 </View>
 
                 <View style={styles.item}>
