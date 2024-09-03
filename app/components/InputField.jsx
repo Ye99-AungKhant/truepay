@@ -22,7 +22,8 @@ const InputField = forwardRef(({
                 flexDirection: 'row',
                 borderBottomColor: '#ccc',
                 borderBottomWidth: 1,
-                paddingBottom: 8,
+                paddingBottom: 5,
+                marginBottom: 8,
             }}>
             {icon}
             {inputType == 'password' ? (

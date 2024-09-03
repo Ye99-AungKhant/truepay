@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, BackHandler } from 'react-native'
+import { View, Text, StyleSheet, BackHandler, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { MaterialIcons } from "@expo/vector-icons";
@@ -33,6 +33,7 @@ export default function ProfileIndex() {
 
     return (
         <View>
+            <StatusBar barStyle="light-content" />
             <View style={styles.container}>
                 <View style={styles.divider}>
                     <TouchableOpacity style={styles.item} onPress={() => router.navigate('verification')} disabled={userData.status == 'Unverified' ? false : true}>
@@ -53,7 +54,7 @@ export default function ProfileIndex() {
                         />
                     </TouchableOpacity>
                 </View>
-                <View style={[styles.item, styles.divider]}><Text>Full Name</Text><Text>{verifiedData?.gender == 'Male' ? 'Mr. ' : 'Mrs. '} {userData.name}</Text></View>
+                <View style={[styles.item, styles.divider]}><Text>Full Name</Text><Text>{verifiedData?.gender == 'Male' && 'Mr. '}{verifiedData?.gender == 'Female' && 'Mrs. '} {userData.name}</Text></View>
                 <View style={[styles.item, styles.divider]}><Text>Phone No.</Text><Text>{userData.phone}</Text></View>
                 <View style={[styles.item, styles.divider]}><Text>Email</Text><Text>{userData.email}</Text></View>
             </View>
@@ -68,9 +69,9 @@ export default function ProfileIndex() {
                 <View style={[styles.item, styles.divider]}><Text>City</Text><Text>{verifiedData?.city}</Text></View>
                 <View style={[styles.item, styles.divider]}><Text>Postal Code</Text><Text>{verifiedData?.postal_code}</Text></View>
             </View>
-            <View style={styles.container}>
+            {/* <View style={styles.container}>
                 <TouchableOpacity style={styles.item}><Text>Delete Account</Text></TouchableOpacity>
-            </View>
+            </View> */}
         </View>
     )
 }

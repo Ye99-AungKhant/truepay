@@ -10,6 +10,7 @@ import TransferAmount from './transferamount';
 import TransferSuccess from './transfersuccess';
 import Receive from './receive';
 import TransferSuccessNoti from './transfersuccessnoti';
+import { StatusBar } from 'react-native';
 
 const HomeLayout = ({ navigation }) => {
     const Stack = createNativeStackNavigator();

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity, Image, Pressable, Alert, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, ScrollView, TouchableOpacity, Image, Pressable, Alert, ActivityIndicator, StatusBar } from 'react-native';
 import { Card, TextInput, Button, RadioButton, Text, IconButton } from 'react-native-paper';
 import { router } from 'expo-router';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -68,7 +68,7 @@ const Verification = () => {
     return (
         <>
             <ScrollView style={styles.container}>
-
+                <StatusBar barStyle="light-content" />
                 <Card style={styles.card}>
                     <Card.Title title="Personal Information" />
                     <Card.Content>

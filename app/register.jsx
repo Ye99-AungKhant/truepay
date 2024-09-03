@@ -6,6 +6,9 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
+    StyleSheet,
+    Alert,
+    ActivityIndicator,
 } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -36,12 +39,12 @@ const Register = () => {
         if (!phone) {
             errors.phone = 'Phone number is required'
         } else if (phone.length < 11) {
-            errors.phone = 'Phone number must be at least 12 characters.';
+            errors.phone = 'Phone number must be at least 11 characters.';
         }
         if (!password) {
             errors.password = 'Password is required'
-        } else if (password.length < 6) {
-            errors.password = 'Password must be at least 6 characters.';
+        } else if (password.length != 6) {
+            errors.password = 'Password must be 6 number.';
         }
         if (!confirmPassword) {
             errors.confirmPassword = 'Confirm Password is required'
@@ -95,7 +98,7 @@ const Register = () => {
                             name="person"
                             size={20}
                             color="#666"
-                            style={{ marginRight: 5 }}
+                            style={{ margin: 5 }}
                         />
                     }
                     keyboardType='default'
@@ -111,7 +114,7 @@ const Register = () => {
                             name="phone"
                             size={20}
                             color="#666"
-                            style={{ marginRight: 5 }}
+                            style={{ margin: 5 }}
                         />
                     }
                     keyboardType='numeric'
@@ -126,7 +129,7 @@ const Register = () => {
                             name="email"
                             size={20}
                             color="#666"
-                            style={{ marginRight: 5 }}
+                            style={{ margin: 5 }}
                         />
                     }
                     ref={emailRef}
@@ -141,10 +144,11 @@ const Register = () => {
                             name="lock"
                             size={20}
                             color="#666"
-                            style={{ marginRight: 5 }}
+                            style={{ margin: 5 }}
                         />
                     }
                     inputType="password"
+                    keyboardType="numeric"
                     secureTextEntry={!passwordVisible}
                     ref={passwordRef}
                     fieldButtonFunction={() => setPasswordVisible(!passwordVisible)}
@@ -165,10 +169,11 @@ const Register = () => {
                             name="lock"
                             size={20}
                             color="#666"
-                            style={{ marginRight: 5 }}
+                            style={{ margin: 5 }}
                         />
                     }
                     inputType="password"
+                    keyboardType="numeric"
                     secureTextEntry={true}
                     ref={confirmPasswordRef}
                 />
@@ -176,7 +181,7 @@ const Register = () => {
 
 
 
-                <CustomButton label={"Register"} onPress={handleRegister} />
+                <CustomButton label={create.isLoading ? <ActivityIndicator size="small" color="white" /> : 'Register'} onPress={handleRegister} />
 
                 <View
                     style={{
@@ -195,3 +200,9 @@ const Register = () => {
 };
 
 export default Register;
+
+const styles = StyleSheet.create({
+    errorText: {
+        color: 'red'
+    }
+})

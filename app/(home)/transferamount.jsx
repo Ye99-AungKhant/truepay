@@ -7,6 +7,7 @@ import {
     Image,
     Modal,
     Alert,
+    StatusBar,
 } from "react-native";
 import { useContext, useEffect, useRef, useState } from "react";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
@@ -87,6 +88,7 @@ const TransferAmount = () => {
 
     return (
         <View style={styles.container}>
+            <StatusBar barStyle="light-content" />
             <ModalPopUp visible={visible} >
                 <View style={styles.transfercard}>
 

@@ -5,6 +5,9 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
+    Alert,
+    StyleSheet,
+    ActivityIndicator,
 } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -28,22 +31,22 @@ const Login = () => {
     const { expoPushToken } = usePushNotifications();
     const expopushToken = expoPushToken?.data
 
-    const formValid = (email, password,) => {
-        if (!email) errors.email = 'Email is required'
-        if (!password) {
-            errors.password = 'Password is required'
-        } else if (password.length < 6) {
-            errors.password = 'Password must be at least 6 characters.';
-        }
-        setErrors(errors);
-        return Object.keys(errors).length == 0
-    }
+    // const formValid = (email, password,) => {
+    //     if (!email) errors.email = 'Email is required'
+    //     if (!password) {
+    //         errors.password = 'Password is required'
+    //     } else if (password.length != 6) {
+    //         errors.password = 'Password must be 6 digit.';
+    //     }
+    //     setErrors(errors);
+    //     return Object.keys(errors).length == 0
+    // }
 
     const handleLogin = () => {
         let email = emailRef.current?.getValue()
         let password = passwordRef.current?.getValue()
-
-        if (formValid(email, password,)) {
+        const valid = email && password
+        if (valid) {
             create.mutate({ email, password, expoPushToken: expopushToken })
 
         } else {
@@ -53,7 +56,7 @@ const Login = () => {
 
     const create = useMutation(async data => logInUser(data), {
         onError: async (e) => {
-            console.log(e);
+            setErrors({ credentialError: 'Your credentials do not match' })
         },
         onSuccess: async (data) => {
             console.log('login', data);
@@ -81,7 +84,7 @@ const Login = () => {
                             name="email"
                             size={20}
                             color="#666"
-                            style={{ marginRight: 5 }}
+                            style={{ margin: 5 }}
                         />
                     }
                     ref={emailRef}
@@ -96,10 +99,11 @@ const Login = () => {
                             name="lock"
                             size={20}
                             color="#666"
-                            style={{ marginRight: 5 }}
+                            style={{ margin: 5 }}
                         />
                     }
                     inputType="password"
+                    keyboardType="numeric"
                     secureTextEntry={!passwordVisible}
                     ref={passwordRef}
                     fieldButtonFunction={() => setPasswordVisible(!passwordVisible)}
@@ -112,8 +116,9 @@ const Login = () => {
                     }
                 />
                 {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
+                {errors.credentialError && <Text style={styles.errorText}>{errors.credentialError}</Text>}
 
-                <CustomButton label={"Login"} onPress={handleLogin} />
+                <CustomButton label={create.isLoading ? <ActivityIndicator size="small" color="white" /> : 'Login'} onPress={handleLogin} />
 
                 <View
                     style={{
@@ -132,3 +137,9 @@ const Login = () => {
 };
 
 export default Login;
+
+const styles = StyleSheet.create({
+    errorText: {
+        color: 'red'
+    }
+})

@@ -52,7 +52,7 @@ export default function Scan() {
 
     return (
         <View style={styles.container}>
-            <StatusBar barStyle="dark-content" />
+            <StatusBar barStyle="light-content" />
             <CameraView
                 style={styles.camera}
                 facing={facing}

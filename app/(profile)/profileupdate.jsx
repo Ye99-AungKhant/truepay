@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator, StatusBar } from 'react-native'
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useContext, useEffect, useState } from 'react'
@@ -62,6 +62,7 @@ const ProfileUpdate = () => {
 
     return (
         <View style={styles.container}>
+            <StatusBar barStyle="light-content" />
             <View style={styles.item}>
                 <View style={styles.profileIcon}>
                     {image ? <Image source={{ uri: userData.profile_url }} style={styles.image} />

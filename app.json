@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "uTruePayndefined",
-    "slug": "uTruePayndefined",
+    "name": "True Pay",
+    "slug": "truepay",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -10,27 +10,27 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#6d25e5"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundColor": "#6d25e5"
       },
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
       "package": "com.yeaungkhant077.uTruePayndefined",
-      "googleServicesFile": "./android/app/google-services.json"
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/noticon.png"
     },
     "plugins": [
       "expo-router",
@@ -55,7 +55,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "bb54ad4b-113d-4ac1-bf17-d6a6834e7e07"
+        "projectId": "d56369a4-7e51-419e-abbe-2316c18728d8"
       }
     }
   }

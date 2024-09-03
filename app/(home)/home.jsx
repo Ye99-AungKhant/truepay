@@ -36,9 +36,6 @@ export default function Home() {
     const [refreshing, setRefreshing] = useState(false);
     const [outerScrollEnabled, setOuterScrollEnabled] = useState(false);
 
-    console.log('expopushdata', expopushdata)
-
-
     useEffect(() => {
         const backAction = () => {
             // Prevent going back to the welcome screen
@@ -169,9 +166,8 @@ export default function Home() {
                         <Text style={styles.text.label}>Recent Transactions</Text>
                         <Transactions />
                     </View>
-                    {isLoading && <View style={styles.loadingOverlay}><ActivityIndicator size="large" color="#6d25e5" /></View>}
                 </View>
-
+                {isLoading && <View style={styles.loadingOverlay}><ActivityIndicator size="large" color="#6d25e5" /></View>}
             </ScrollView>
         </SafeAreaView>
     );

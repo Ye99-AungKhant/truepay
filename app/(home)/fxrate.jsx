@@ -33,7 +33,7 @@ export default function FxRate() {
     }
     return (
         <View style={{ padding: 20 }}>
-            <StatusBar barStyle="dark-content" />
+            <StatusBar barStyle="light-content" />
             <View style={styles.item}>
                 <MaterialIcons
                     name="attach-money"

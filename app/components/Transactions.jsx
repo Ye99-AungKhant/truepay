@@ -21,7 +21,6 @@ export default function Transactions() {
     const { data, error, isLoading } = useQuery(['transactionHistory', authId], () => transactionHistory(authId), {
         enabled: !!authId,
         onSuccess: (data) => {
-            console.log(data);
         },
     })
 
@@ -72,7 +71,7 @@ export default function Transactions() {
                         <View style={styles.transaction}>
                             <MaterialIcons
                                 name="compare-arrows"
-                                size={32}
+                                size={30}
                                 color={
                                     transaction.recipient_user_id === authId ? "green" : "brown"
                                 }
@@ -126,10 +125,10 @@ const styles = StyleSheet.create({
         },
     },
     content: {
-        width: '70%'
+        width: 'auto'
     },
     amount: {
-        width: '30%',
+        width: 'auto',
     },
     detail: {
         borderTopWidth: 1,

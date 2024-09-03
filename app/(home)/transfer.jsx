@@ -45,7 +45,7 @@ export default function Transfer() {
 
     return (
         <View style={styles.container}>
-            <StatusBar barStyle="dark-content" />
+            <StatusBar barStyle="light-content" />
             <TextInput
                 style={styles.input}
                 placeholder="Please enter phone number"

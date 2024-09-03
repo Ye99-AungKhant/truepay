@@ -7,15 +7,14 @@ import { MainContext } from '../provider/AppProvider';
 const Receive = () => {
     const { userData } = useContext(MainContext)
     const { phone, profile_url } = userData
-    console.log('phone', phone);
 
     return (
         <View style={styles.container}>
-            <StatusBar barStyle="dark-content" />
+            <StatusBar barStyle="light-content" />
             <View style={styles.card}>
                 <QRCode
                     value={phone}
-                    logo={profile_url}
+                    logo={{ uri: profile_url }}
                     logoSize={40}
                     logoBorderRadius={40}
                     logoBackgroundColor='white'

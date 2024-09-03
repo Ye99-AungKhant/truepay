@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native'
+import { View, Text, StyleSheet, ActivityIndicator, StatusBar } from 'react-native'
 import React, { useContext } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { useGlobalSearchParams } from 'expo-router'
@@ -47,6 +47,7 @@ const TransferSuccessNoti = () => {
 
     return (
         <View style={styles.container}>
+            <StatusBar barStyle="light-content" />
             <View style={styles.card}>
                 <View style={styles.success.header}>
                     <Ionicons name='checkmark-outline'

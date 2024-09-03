@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity, StatusBar } from 'react-native'
 import React, { useContext } from 'react'
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
 import { MainContext } from '../provider/AppProvider';
-import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router, useNavigation } from 'expo-router';
 
@@ -16,12 +16,18 @@ const CustomDrawerContent = (props) => {
 
     return (
         <View style={{ flex: 1 }}>
+            <StatusBar barStyle="light-content" />
             <DrawerContentScrollView {...props}
                 contentContainerStyle={{ backgroundColor: '#6d25e5', }}
             >
                 <View style={styles.container}>
-                    <Image source={{ uri: userData?.profile_url }} style={styles.image} />
-                    <Text style={{ color: '#fff' }}>{verifiedData?.gender == 'Male' ? 'Mr. ' : 'Mrs. '}{userData?.name}</Text>
+                    {userData?.profile_url ?
+                        <Image source={{ uri: userData?.profile_url }} style={styles.image} />
+                        :
+                        <FontAwesome name="user-circle" size={70} color="white" />
+                    }
+
+                    <Text style={{ color: '#fff' }}>{verifiedData?.gender == 'Male' && 'Mr. '}{verifiedData?.gender == 'Female' && 'Mrs. '}{userData?.name}</Text>
                 </View>
                 <View style={{ flex: 1, backgroundColor: '#fff' }}>
                     <DrawerItemList {...props} />
@@ -48,8 +54,8 @@ const styles = StyleSheet.create({
         padding: 15,
     },
     image: {
-        width: 100,
-        height: 100,
+        width: 70,
+        height: 70,
         borderRadius: 50,
         marginBottom: 10
     },
