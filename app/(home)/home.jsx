@@ -23,7 +23,7 @@ import { jwtDecode } from "jwt-decode";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useContext, useEffect, useState } from "react";
 import { MainContext } from "../provider/AppProvider";
-import { getUserProfileData } from "@/lib/Fetcher";
+import { getUserProfileData } from "../../lib/Fetcher";
 import { router, useNavigation, useRouter } from "expo-router";
 import { usePushNotifications } from "@/usePushNotifications";
 

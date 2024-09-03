@@ -3,10 +3,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { MaterialIcons } from "@expo/vector-icons";
 import { router, useNavigation } from 'expo-router';
-import { jwtDecode } from "jwt-decode";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useMutation } from 'react-query';
-import { getUserProfileData } from '@/lib/Fetcher';
 import { MainContext } from '../provider/AppProvider';
 
 export default function ProfileIndex() {

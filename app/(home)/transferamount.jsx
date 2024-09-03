@@ -17,7 +17,8 @@ import { router, useLocalSearchParams } from "expo-router";
 import { useGlobalSearchParams } from "expo-router";
 import { MainContext } from "../provider/AppProvider";
 import { useMutation, useQueryClient } from "react-query";
-import { transfer } from "@/lib/Fetcher";
+// import { transfer } from "@/lib/Fetcher";
+import { transfer } from "../../lib/Fetcher";
 
 
 

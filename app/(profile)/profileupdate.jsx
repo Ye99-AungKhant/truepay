@@ -6,7 +6,8 @@ import { useGlobalSearchParams } from 'expo-router';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { imageDb } from './../../lib/FirebaseConfig';
 import { useMutation, useQueryClient } from 'react-query';
-import { updateUserProfile } from '@/lib/Fetcher';
+// import { updateUserProfile } from '@/lib/Fetcher';
+import { updateUserProfile } from '../../lib/Fetcher';
 import { MainContext } from '../provider/AppProvider';
 
 const ProfileUpdate = () => {

@@ -9,7 +9,8 @@ import {
 } from "react-native";
 import { useContext, useRef, useState } from "react";
 import { useMutation } from "react-query";
-import { searchTransferPhone } from "@/lib/Fetcher";
+// import { searchTransferPhone } from "@/lib/Fetcher";
+import { searchTransferPhone } from "../../lib/Fetcher";
 import { router } from "expo-router";
 import { MainContext } from "../provider/AppProvider";
 export default function Transfer() {

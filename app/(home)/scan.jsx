@@ -11,7 +11,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { router } from "expo-router";
 import { useQuery } from "react-query";
-import { searchTransferPhone } from "@/lib/Fetcher";
+// import { searchTransferPhone } from "@/lib/Fetcher";
+import { searchTransferPhone } from "../../lib/Fetcher";
 
 export default function Scan() {
     const [facing, setFacing] = useState("back");

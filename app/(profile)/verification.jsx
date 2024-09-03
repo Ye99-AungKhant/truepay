@@ -7,7 +7,8 @@ import { MainContext } from '../provider/AppProvider';
 import { Picker } from '@react-native-picker/picker';
 import CountryList from './../../lib/CountryList';
 import { useMutation, useQueryClient } from "react-query";
-import { verifyUserData } from '@/lib/Fetcher';
+// import { verifyUserData } from '@/lib/Fetcher';
+import { verifyUserData } from '../../lib/Fetcher';
 import { jwtDecode } from "jwt-decode";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

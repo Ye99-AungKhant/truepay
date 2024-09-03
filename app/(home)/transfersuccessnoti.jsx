@@ -3,7 +3,8 @@ import React, { useContext } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { useGlobalSearchParams } from 'expo-router'
 import { useQuery } from 'react-query'
-import { getTransaction } from '@/lib/Fetcher'
+// import { getTransaction } from '@/lib/Fetcher'
+import { getTransaction } from "../../lib/Fetcher";
 import { MainContext } from '../provider/AppProvider'
 
 const TransferSuccessNoti = () => {
