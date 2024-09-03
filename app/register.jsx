@@ -44,7 +44,7 @@ const Register = () => {
         if (!password) {
             errors.password = 'Password is required'
         } else if (password.length != 6) {
-            errors.password = 'Password must be 6 number.';
+            errors.password = 'Password must be 6 digit.';
         }
         if (!confirmPassword) {
             errors.confirmPassword = 'Confirm Password is required'
@@ -138,7 +138,7 @@ const Register = () => {
                 {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
 
                 <InputField
-                    label={'Password'}
+                    label={'Password (6-digit)'}
                     icon={
                         <MaterialIcons
                             name="lock"

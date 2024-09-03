@@ -31,22 +31,23 @@ const Login = () => {
     const { expoPushToken } = usePushNotifications();
     const expopushToken = expoPushToken?.data
 
-    // const formValid = (email, password,) => {
-    //     if (!email) errors.email = 'Email is required'
-    //     if (!password) {
-    //         errors.password = 'Password is required'
-    //     } else if (password.length != 6) {
-    //         errors.password = 'Password must be 6 digit.';
-    //     }
-    //     setErrors(errors);
-    //     return Object.keys(errors).length == 0
-    // }
+    const formValid = (email, password,) => {
+        let errors = {}
+        if (!email) errors.email = 'Email is required'
+        if (!password) {
+            errors.password = 'Password is required'
+        } else if (password.length != 6) {
+            errors.password = 'Password must be 6 digit.';
+        }
+        setErrors(errors);
+        return Object.keys(errors).length == 0
+    }
 
     const handleLogin = () => {
         let email = emailRef.current?.getValue()
         let password = passwordRef.current?.getValue()
         const valid = email && password
-        if (valid) {
+        if (formValid(email, password)) {
             create.mutate({ email, password, expoPushToken: expopushToken })
 
         } else {
